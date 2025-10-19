@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔒 Pre-push: проверка типов TypeScript..."
+pnpm run type-check || exit 1
+echo "✅ Типы в порядке, пуш разрешён!"
