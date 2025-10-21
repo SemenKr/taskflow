@@ -13,10 +13,26 @@ export function App() {
   ]);
   console.log(setTasks);
 
+  const deleteTask = (taskId: string) => {
+    const filteredTasks = tasks.filter((task) => {
+      return task.id !== taskId;
+    });
+    setTasks(filteredTasks);
+  };
+
+  const deleteAllTasks = () => {
+    setTasks([]);
+  };
+
   return (
     <Layout>
       <p>Старт разработки...</p>
-      <ToDoList title={'What to learn'} tasks={tasks} />
+      <ToDoList
+        title={'What to learn'}
+        tasks={tasks}
+        deleteTask={deleteTask}
+        deleteAllTasks={deleteAllTasks}
+      />
     </Layout>
   );
 }
