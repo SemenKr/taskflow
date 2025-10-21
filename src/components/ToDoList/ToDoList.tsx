@@ -3,9 +3,16 @@ import { Task } from '../../types/todo.ts';
 type Props = {
   title: string;
   tasks: Task[];
+  deleteTask: (taskId: string) => void;
+  deleteAllTasks: () => void;
 };
 
-export const ToDoList = ({ title, tasks }: Props) => {
+export const ToDoList = ({
+  title,
+  tasks,
+  deleteTask,
+  deleteAllTasks,
+}: Props) => {
   return (
     <div>
       <h3>{title}</h3>
@@ -22,12 +29,13 @@ export const ToDoList = ({ title, tasks }: Props) => {
               <li key={task.id}>
                 <input type="checkbox" checked={task.isDone} />
                 <span>{task.title}</span>
-                <button>x</button>
+                <button onClick={() => deleteTask(task.id)}>x</button>
               </li>
             );
           })}
         </ul>
       )}
+      <button onClick={() => deleteAllTasks()}>Delete All Tasks</button>
     </div>
   );
 };
