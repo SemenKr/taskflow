@@ -1,5 +1,6 @@
 import type { Task } from '../../types/todo.ts';
 import { useState } from 'react';
+import styles from './ToDoList.module.scss';
 
 type Props = {
   title: string;
@@ -69,7 +70,11 @@ export const ToDoList = ({
           })}
         </ul>
       )}
-      <button onClick={() => deleteAllTasks()} disabled={tasks.length === 0}>
+      <button
+        className={styles.button}
+        onClick={() => deleteAllTasks()}
+        disabled={tasks.length === 0}
+      >
         Delete All Tasks
       </button>
     </div>
