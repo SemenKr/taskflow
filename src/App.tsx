@@ -1,11 +1,15 @@
+import { Layout } from './components/Layout/Layout.tsx';
+import { useState } from 'react';
+import { v1 } from 'uuid';
+import { ToDoList } from './components/ToDoList/ToDoList.tsx';
+import type { Task } from './types/todo.ts';
+
 export function App() {
-  // const [filter, setFilter] = useState<FilterValues>('all');
   const [tasks, setTasks] = useState<Task[]>([
     { id: v1(), title: 'HTML&CSS', isDone: true },
     { id: v1(), title: 'JS', isDone: true },
     { id: v1(), title: 'ReactJS', isDone: false },
   ]);
-  console.log(setTasks);
 
   const deleteTask = (taskId: string) => {
     const filteredTasks = tasks.filter((task) => {

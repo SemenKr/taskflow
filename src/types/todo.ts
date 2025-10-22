@@ -1,7 +1,7 @@
-export interface Todo {
+export interface Task {
   id: string;
-  text: string;
-  completed: boolean;
+  title: string;
+  isDone: boolean;
 }
 
 export type FilterType = 'all' | 'active' | 'completed';

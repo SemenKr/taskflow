@@ -1,4 +1,4 @@
-import { Task } from '../../types/todo.ts';
+import type { Task } from '../../types/todo.ts';
 
 type Props = {
   title: string;
