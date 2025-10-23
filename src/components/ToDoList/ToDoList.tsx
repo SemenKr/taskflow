@@ -1,5 +1,6 @@
-import type { Task } from '../../types/todo.ts';
 import { useState } from 'react';
+import type { Task } from '../../types/todo.ts';
+import styles from './ToDoList.module.scss';
 
 type Props = {
   title: string;
@@ -20,27 +21,27 @@ export const ToDoList = ({
 
   const addTaskHandler = () => {
     const trimmedValue = inputValue.trim();
+    if (!trimmedValue) return;
 
-    if (!trimmedValue) {
-      // TODO Можно показать сообщение об ошибке
-      return;
-    }
     addTask(trimmedValue);
     setInputValue('');
   };
 
   return (
-    <div>
-      <h3>{title}</h3>
-      <div>
+    <div className={styles.todo}>
+      <h3 className={styles.todoTitle}>{title}</h3>
+
+      <div className={styles.todoInputWrapper}>
         <input
-          placeholder={'add new Task...'}
+          className={styles.todoInput}
+          placeholder="add new Task..."
           value={inputValue}
           type="text"
           onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={(e) => e.key === 'Enter' && addTaskHandler()}
         />
         <button
+          className={styles.todoAddButton}
           onClick={addTaskHandler}
           aria-label="Add task"
           disabled={!inputValue.trim()}
@@ -48,28 +49,45 @@ export const ToDoList = ({
           +
         </button>
       </div>
+
       {tasks.length === 0 ? (
-        <p>Тасок нет</p>
+        <p className={styles.todoEmpty}>Тасок нет</p>
       ) : (
-        <ul>
-          {tasks.map((task) => {
-            return (
-              <li key={task.id}>
-                <input type="checkbox" checked={task.isDone} />
-                <span>{task.title}</span>
-                <button
-                  onClick={() => deleteTask(task.id)}
-                  aria-label={`Delete task ${task.title}`}
-                  title="Delete task"
-                >
-                  x
-                </button>
-              </li>
-            );
-          })}
+        <ul className={styles.todoList}>
+          {tasks.map((task) => (
+            <li key={task.id} className={styles.todoItem}>
+              <input
+                className={styles.todoCheckbox}
+                type="checkbox"
+                checked={task.isDone}
+                readOnly
+              />
+              <span
+                className={`${styles.todoText} ${
+                  task.isDone ? styles.done : ''
+                }`}
+              >
+                {task.title}
+              </span>
+
+              <button
+                className={styles.todoDeleteButton}
+                onClick={() => deleteTask(task.id)}
+                aria-label={`Delete task ${task.title}`}
+                title="Delete task"
+              >
+                x
+              </button>
+            </li>
+          ))}
         </ul>
       )}
-      <button onClick={() => deleteAllTasks()} disabled={tasks.length === 0}>
+
+      <button
+        className={styles.secondaryButton}
+        onClick={deleteAllTasks}
+        disabled={tasks.length === 0}
+      >
         Delete All Tasks
       </button>
     </div>
