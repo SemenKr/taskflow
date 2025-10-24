@@ -1,10 +1,14 @@
 import styles from './switchToggle.module.scss';
 
-export const SwitchToggle = () => {
+type SwitchToggleProps = {
+  onDarkHandler: () => void;
+};
+
+export const SwitchToggle = ({ onDarkHandler }: SwitchToggleProps) => {
   return (
     <div className={styles.flexContainer}>
       <label className={styles.switch}>
-        <input type={styles.checkbox} />
+        <input type={'checkbox'} onChange={onDarkHandler} />
         <span className={styles.slider} />
       </label>
     </div>

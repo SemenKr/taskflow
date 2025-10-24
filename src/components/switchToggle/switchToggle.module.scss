@@ -10,14 +10,12 @@
   height: 28px;
 }
 
-/* скрываем стандартный чекбокс */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* сам ползунок */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -30,7 +28,6 @@
   border-radius: 34px;
 }
 
-/* кружочек внутри */
 .slider::before {
   position: absolute;
   content: "";
@@ -43,18 +40,10 @@
   border-radius: 50%;
 }
 
-/* когда чекбокс активен */
 input:checked + .slider {
-  background-color: var(--btn-color);
+  background-color: var(--toggle-check-bg);
 }
 
-/* положение кружка при активном состоянии */
 input:checked + .slider::before {
   transform: translateX(22px);
-}
-
-/* hover эффект */
-
-input:checked + .slider:hover {
-  background-color: #45a049;
 }
