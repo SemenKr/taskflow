@@ -65,17 +65,17 @@ export const ToDoList = ({
               <input
                 className={styles.todoCheckbox}
                 type="checkbox"
+                id={`task-${task.id}`}
+                name={`task-${task.id}`}
                 checked={task.isDone}
                 readOnly
               />
-              <span
-                className={`${styles.todoText} ${
-                  task.isDone ? styles.done : ''
-                }`}
+              <label
+                htmlFor={`task-${task.id}`}
+                className={`${styles.todoText} ${task.isDone ? styles.done : ''}`}
               >
                 {task.title}
-              </span>
-
+              </label>
               <button
                 className={styles.todoDeleteButton}
                 onClick={() => deleteTask(task.id)}
