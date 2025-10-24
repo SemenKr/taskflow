@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Task } from '../../types/todo.ts';
 import styles from './ToDoList.module.scss';
+import { SwitchToggle } from '../switchToggle/switchToggle.tsx';
 
 type Props = {
   title: string;
@@ -29,6 +30,7 @@ export const ToDoList = ({
 
   return (
     <div className={styles.todo}>
+      <SwitchToggle />
       <h3 className={styles.todoTitle}>{title}</h3>
 
       <div className={styles.todoInputWrapper}>
