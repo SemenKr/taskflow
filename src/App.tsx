@@ -11,6 +11,12 @@ export function App() {
     { id: v1(), title: 'ReactJS', isDone: false },
   ]);
 
+  const [isDark, setIsDark] = useState(false);
+
+  const switchMode = () => {
+    setIsDark(!isDark);
+  };
+
   const addTask = (taskTitle: string) => {
     const newTask = { id: v1(), title: taskTitle, isDone: false };
     setTasks((prev) => [...prev, newTask]);
@@ -31,11 +37,13 @@ export function App() {
     <Layout>
       <p>Старт разработки...</p>
       <ToDoList
+        isDark={isDark}
         title={'What to learn'}
         tasks={tasks}
         deleteTask={deleteTask}
         deleteAllTasks={deleteAllTasks}
         addTask={addTask}
+        switchMode={switchMode}
       />
     </Layout>
   );
