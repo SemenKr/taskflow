@@ -6,8 +6,10 @@
   --bg-item-hover: rgba(255, 255, 255, 0.25);
   --btn-bg: #fff;
   --btn-color: #ff8c2f;
+  --toggle-color: rgba(255, 255, 255, 0.4);
   --text-color: #fff;
   --shadow: rgba(0, 0, 0, 0.15);
+  --toggle-check-bg: #ff8c2f;
 }
 
 [data-theme='dark'] {
@@ -18,8 +20,10 @@
   --bg-item-hover: rgba(255, 255, 255, 0.2);
   --btn-bg: #f1f1f1;
   --btn-color: #222;
+  --toggle-color: rgba(255, 255, 255, 0.4);
   --text-color: #f1f1f1;
   --shadow: rgba(0, 0, 0, 0.3);
+  --toggle-check-bg: rgba(255, 255, 255, 0.4);
 }
 
 .todo {
@@ -70,6 +74,7 @@
 }
 
 .todoAddButton {
+  will-change: transform;
   background: var(--btn-bg);
   color: var(--btn-color);
   font-weight: bold;
@@ -90,6 +95,7 @@
 
   &:disabled {
     opacity: 0.5;
+    transform: none;
     cursor: not-allowed;
   }
 }
@@ -102,13 +108,15 @@
 
 .todoItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   background: var(--bg-item);
   border-radius: 12px;
   padding: 0.7rem 1rem;
   margin-bottom: 0.8rem;
   transition: background 0.3s ease;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
     background: var(--bg-item-hover);
@@ -116,26 +124,33 @@
 }
 
 .todoCheckbox {
-  accent-color: var(--btn-bg);
+  flex-shrink: 0;
   width: 18px;
   height: 18px;
+  margin-top: 0.2rem;
+  accent-color: var(--btn-bg);
 }
 
 .todoText {
   flex: 1;
-  margin-left: 0.8rem;
-  font-weight: 500;
-  font-size: 1rem;
-  text-decoration: none;
-  transition: opacity 0.3s ease;
+  min-width: 0;
+  margin: 0 0.5rem 0 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+}
 
-  &.done {
-    opacity: 0.5;
-    text-decoration: line-through;
-  }
+.todoItem:hover .todoText {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: initial;
+  word-wrap: break-word;
 }
 
 .todoDeleteButton {
+  flex-shrink: 0;
+  margin-left: 0.5rem;
   background: transparent;
   border: none;
   color: var(--text-color);
@@ -149,6 +164,7 @@
 }
 
 .secondaryButton {
+  will-change: transform;
   background: var(--btn-bg);
   color: var(--btn-color);
   font-weight: bold;
@@ -175,4 +191,3 @@
   font-size: 0.95rem;
   text-align: center;
 }
-

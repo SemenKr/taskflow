@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Task } from '../../types/todo.ts';
 import styles from './ToDoList.module.scss';
+import { SwitchToggle } from '../switchToggle/SwitchToggle.tsx';
 
 type Props = {
   title: string;
@@ -8,14 +9,18 @@ type Props = {
   deleteTask: (taskId: string) => void;
   deleteAllTasks: () => void;
   addTask: (taskTitle: string) => void;
+  switchMode: () => void;
+  isDark: boolean;
 };
 
 export const ToDoList = ({
   title,
   tasks,
+  isDark,
   deleteTask,
   deleteAllTasks,
   addTask,
+  switchMode,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
 
@@ -28,7 +33,8 @@ export const ToDoList = ({
   };
 
   return (
-    <div className={styles.todo}>
+    <div className={styles.todo} data-theme={isDark ? 'dark' : 'light'}>
+      <SwitchToggle onDarkHandler={switchMode} />
       <h3 className={styles.todoTitle}>{title}</h3>
 
       <div className={styles.todoInputWrapper}>
@@ -59,17 +65,17 @@ export const ToDoList = ({
               <input
                 className={styles.todoCheckbox}
                 type="checkbox"
+                id={`task-${task.id}`}
+                name={`task-${task.id}`}
                 checked={task.isDone}
                 readOnly
               />
-              <span
-                className={`${styles.todoText} ${
-                  task.isDone ? styles.done : ''
-                }`}
+              <label
+                htmlFor={`task-${task.id}`}
+                className={`${styles.todoText} ${task.isDone ? styles.done : ''}`}
               >
                 {task.title}
-              </span>
-
+              </label>
               <button
                 className={styles.todoDeleteButton}
                 onClick={() => deleteTask(task.id)}
