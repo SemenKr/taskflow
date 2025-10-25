@@ -35,7 +35,6 @@ export function App() {
 
   return (
     <Layout>
-      <p>Старт разработки...</p>
       <ToDoList
         isDark={isDark}
         title={'What to learn'}
