@@ -79,6 +79,9 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition:
     transform 0.2s ease,
     background 0.3s ease;
@@ -175,4 +178,3 @@
   font-size: 0.95rem;
   text-align: center;
 }
-
