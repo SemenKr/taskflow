@@ -1,7 +1,7 @@
 import { Layout } from './components/Layout/Layout.tsx';
 import { useState } from 'react';
 import { v1 } from 'uuid';
-import { ToDoList } from './components/ToDoList/ToDoList.tsx';
+import { ToDoList } from './components/todo/ToDoList/ToDoList.tsx';
 import type { Task } from './types/todo.ts';
 
 export function App() {
