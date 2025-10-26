@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import type { Task } from '../../types/todo.ts';
+import type { Task } from '../../../types/todo.ts';
 import styles from './ToDoList.module.scss';
-import { SwitchToggle } from '../switchToggle/SwitchToggle.tsx';
+import { SwitchToggle } from '../../common/SwitchToggle/SwitchToggle.tsx';
 
 type Props = {
   title: string;
