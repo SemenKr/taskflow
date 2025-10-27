@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import type { Task } from '../../../types/todo.ts';
+import { useMemo, useRef, useState } from 'react';
+import type { FilterType, Task } from '../../../types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { SwitchToggle } from '../../common/SwitchToggle/SwitchToggle.tsx';
+import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
+import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
 
 type Props = {
   title: string;
@@ -23,6 +25,27 @@ export const ToDoList = ({
   switchMode,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
+  const [filter, setFilter] = useState<FilterType>('all');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const activeCount = useMemo(
+    () => tasks.filter((t) => !t.isDone).length,
+    [tasks]
+  );
+  const completedCount = useMemo(
+    () => tasks.filter((t) => t.isDone).length,
+    [tasks]
+  );
+
+  const filteredTasks = useMemo(() => {
+    switch (filter) {
+      case 'active':
+        return tasks.filter((t) => !t.isDone);
+      case 'completed':
+        return tasks.filter((t) => t.isDone);
+      default:
+        return tasks;
+    }
+  }, [tasks, filter]);
 
   const addTaskHandler = () => {
     const trimmedValue = inputValue.trim();
@@ -30,6 +53,7 @@ export const ToDoList = ({
 
     addTask(trimmedValue);
     setInputValue('');
+    inputRef.current?.focus();
   };
 
   return (
@@ -43,6 +67,7 @@ export const ToDoList = ({
           placeholder="add new Task..."
           value={inputValue}
           type="text"
+          ref={inputRef}
           onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={(e) => e.key === 'Enter' && addTaskHandler()}
         />
@@ -60,42 +85,28 @@ export const ToDoList = ({
         <p className={styles.todoEmpty}>Тасок нет</p>
       ) : (
         <ul className={styles.todoList}>
-          {tasks.map((task) => (
-            <li key={task.id} className={styles.todoItem}>
-              <input
-                className={styles.todoCheckbox}
-                type="checkbox"
-                id={`task-${task.id}`}
-                name={`task-${task.id}`}
-                checked={task.isDone}
-                readOnly
-              />
-              <label
-                htmlFor={`task-${task.id}`}
-                className={`${styles.todoText} ${task.isDone ? styles.done : ''}`}
-              >
-                {task.title}
-              </label>
-              <button
-                className={styles.todoDeleteButton}
-                onClick={() => deleteTask(task.id)}
-                aria-label={`Delete task ${task.title}`}
-                title="Delete task"
-              >
-                x
-              </button>
-            </li>
+          {filteredTasks.map((task) => (
+            <TaskItem key={task.id} task={task} onDelete={deleteTask} />
           ))}
         </ul>
       )}
 
-      <button
-        className={styles.secondaryButton}
-        onClick={deleteAllTasks}
-        disabled={tasks.length === 0}
-      >
-        Delete All Tasks
-      </button>
+      <div className={styles.buttonsWrapper}>
+        <button
+          className={styles.secondaryButton}
+          onClick={deleteAllTasks}
+          disabled={tasks.length === 0}
+        >
+          Delete All Tasks
+        </button>
+        <FilterSelect
+          filter={filter}
+          onFilterChange={setFilter}
+          tasksCount={tasks.length}
+          activeCount={activeCount}
+          completedCount={completedCount}
+        />
+      </div>
     </div>
   );
 };

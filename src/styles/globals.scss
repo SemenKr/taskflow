@@ -45,6 +45,11 @@ button {
   &:disabled {
     cursor: not-allowed;
   }
+
+  user-select: none; // Запрещает выделение текста
+  -webkit-user-select: none; // Для Safari
+  -moz-user-select: none; // Для Firefox
+  -ms-user-select: none; // Для старых IE
 }
 
 p,
