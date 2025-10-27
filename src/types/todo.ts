@@ -1,7 +1,7 @@
-export type Task = {
+export interface Task {
   id: string;
   title: string;
   isDone: boolean;
-};
+}
 
-export type FilterValues = 'all' | 'active' | 'completed';
+export type FilterType = 'all' | 'active' | 'completed';

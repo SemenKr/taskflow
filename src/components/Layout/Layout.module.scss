@@ -1,3 +1,5 @@
+@use '@styles/_variables' as vars;
+
 .layout {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,7 @@
 
   &__header,
   &__footer {
-    background: #f5f5f5;
+    background: vars.$bg-primary;
     padding: 1rem;
     text-align: center;
   }

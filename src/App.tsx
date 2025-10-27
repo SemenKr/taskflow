@@ -1,17 +1,26 @@
 import { Layout } from './components/Layout/Layout.tsx';
 import { useState } from 'react';
-import { Task } from './types/todo.ts';
 import { v1 } from 'uuid';
-import { ToDoList } from './components/ToDoList/ToDoList.tsx';
+import { ToDoList } from './components/todo/ToDoList/ToDoList.tsx';
+import type { Task } from './types/todo.ts';
 
 export function App() {
-  // const [filter, setFilter] = useState<FilterValues>('all');
   const [tasks, setTasks] = useState<Task[]>([
     { id: v1(), title: 'HTML&CSS', isDone: true },
     { id: v1(), title: 'JS', isDone: true },
     { id: v1(), title: 'ReactJS', isDone: false },
   ]);
-  console.log(setTasks);
+
+  const [isDark, setIsDark] = useState(false);
+
+  const switchMode = () => {
+    setIsDark(!isDark);
+  };
+
+  const addTask = (taskTitle: string) => {
+    const newTask = { id: v1(), title: taskTitle, isDone: false };
+    setTasks((prev) => [...prev, newTask]);
+  };
 
   const deleteTask = (taskId: string) => {
     const filteredTasks = tasks.filter((task) => {
@@ -26,12 +35,14 @@ export function App() {
 
   return (
     <Layout>
-      <p>Старт разработки...</p>
       <ToDoList
+        isDark={isDark}
         title={'What to learn'}
         tasks={tasks}
         deleteTask={deleteTask}
         deleteAllTasks={deleteAllTasks}
+        addTask={addTask}
+        switchMode={switchMode}
       />
     </Layout>
   );

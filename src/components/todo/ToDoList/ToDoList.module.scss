@@ -1,0 +1,146 @@
+:root {
+  --bg-main: #ff8c2f;
+  --bg-input: rgba(255, 255, 255, 0.2);
+  --bg-input-focus: rgba(255, 255, 255, 0.3);
+  --bg-item: rgba(255, 255, 255, 0.15);
+  --bg-item-hover: rgba(255, 255, 255, 0.25);
+  --btn-bg: #fff;
+  --btn-color: #ff8c2f;
+  --toggle-color: rgba(255, 255, 255, 0.4);
+  --text-color: #fff;
+  --shadow: rgba(0, 0, 0, 0.15);
+  --toggle-check-bg: #ff8c2f;
+}
+
+[data-theme='dark'] {
+  --bg-main: #222;
+  --bg-input: rgba(255, 255, 255, 0.1);
+  --bg-input-focus: rgba(255, 255, 255, 0.15);
+  --bg-item: rgba(255, 255, 255, 0.1);
+  --bg-item-hover: rgba(255, 255, 255, 0.2);
+  --btn-bg: #f1f1f1;
+  --btn-color: #222;
+  --toggle-color: rgba(255, 255, 255, 0.4);
+  --text-color: #f1f1f1;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --toggle-check-bg: rgba(255, 255, 255, 0.4);
+}
+
+.todo {
+  max-width: 420px;
+  margin: 40px auto;
+  background: var(--bg-main);
+  border-radius: 24px;
+  color: var(--text-color);
+  padding: 2rem 1.8rem;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 10px 25px var(--shadow);
+  transition: all 0.4s ease;
+}
+
+.todoTitle {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.todoInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.todoInput {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 500;
+  background: var(--bg-input);
+  color: var(--text-color);
+  transition: background 0.3s ease;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &:focus {
+    background: var(--bg-input-focus);
+  }
+}
+
+.todoAddButton {
+  will-change: transform;
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  font-weight: bold;
+  font-size: 1.4rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    transform 0.2s ease,
+    background 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    transform: none;
+    cursor: not-allowed;
+  }
+}
+
+.todoList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.secondaryButton {
+  will-change: transform;
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  font-weight: bold;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  transition:
+    transform 0.2s ease,
+    background 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.todoEmpty {
+  opacity: 0.8;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.buttonsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
