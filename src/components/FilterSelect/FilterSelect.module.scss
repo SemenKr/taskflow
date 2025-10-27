@@ -11,6 +11,8 @@
 }
 
 .selectHeader {
+  position: relative;
+  z-index: 600;
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -22,7 +24,7 @@
   background: vars.$primary-color;
   color: vars.$bg-primary;
   cursor: pointer;
-  box-shadow: 0px 0px 4px 0px vars.$primary-color;
+  box-shadow: 0 0 4px 0 vars.$primary-color;
   font-size: vars.$text-lg;
   line-height: 1;
   font-weight: vars.$font-medium;
@@ -72,22 +74,22 @@
   background: vars.$bg-primary;
   border: 1px solid vars.$primary-color;
   border-radius: 8px;
-  z-index: 1000;
+  z-index: 500;
   font-family: vars.$font-secondary;
   box-shadow: 0 8px 20px rgba(vars.$primary-color, 0.15);
   overflow: hidden;
 
   opacity: 0;
-  transform: translateY(-5px) scale(0.98);
+  transform: translateY(-50px);
   pointer-events: none;
   transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+    opacity vars.$transition-fast,
+    transform vars.$transition-fast;
 }
 
 .open {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
   pointer-events: auto;
 }
 
