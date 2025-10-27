@@ -4,6 +4,8 @@ import styles from './ToDoList.module.scss';
 import { SwitchToggle } from '../../common/SwitchToggle/SwitchToggle.tsx';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
+import { Image } from '@components/common/Image/Image.tsx';
+import svgImage from '@/assets/icons/empty-tasks-list.svg';
 
 type Props = {
   title: string;
@@ -82,7 +84,10 @@ export const ToDoList = ({
       </div>
 
       {tasks.length === 0 ? (
-        <p className={styles.todoEmpty}>Тасок нет</p>
+        <div className={styles.emptyTaskWrapper}>
+          <p className={styles.todoEmpty}>Тасок нет</p>
+          <Image src={svgImage} width={221} height={174} isSvg={true} />
+        </div>
       ) : (
         <ul className={styles.todoList}>
           {filteredTasks.map((task) => (
