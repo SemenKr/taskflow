@@ -1,0 +1,124 @@
+@use '@styles/variables' as vars;
+
+.select {
+  position: relative;
+  max-width: 150px;
+  font-family: vars.$font-secondary;
+}
+
+.select {
+  width: 150px;
+}
+
+.selectHeader {
+  position: relative;
+  z-index: 600;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: vars.$primary-color;
+  color: vars.$bg-primary;
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 vars.$primary-color;
+  font-size: vars.$text-lg;
+  line-height: 1;
+  font-weight: vars.$font-medium;
+  text-transform: uppercase;
+  transition:
+    border-color vars.$transition-fast,
+    background-color vars.$transition-fast;
+
+  user-select: none; // Запрещает выделение текста
+  -webkit-user-select: none; // Для Safari
+  -moz-user-select: none; // Для Firefox
+  -ms-user-select: none; // Для старых IE
+
+  &:hover {
+    border-color: vars.$primary-color;
+    background-color: #534cc2;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
+  }
+}
+
+.selectedValue {
+  font-weight: 500;
+}
+
+.arrow {
+  transition: transform 0.2s;
+  font-size: 0.8rem;
+  width: 8px;
+  height: 4px;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.selectOptions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: vars.$bg-primary;
+  border: 1px solid vars.$primary-color;
+  border-radius: 8px;
+  z-index: 500;
+  font-family: vars.$font-secondary;
+  box-shadow: 0 8px 20px rgba(vars.$primary-color, 0.15);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(-50px);
+  pointer-events: none;
+  transition:
+    opacity vars.$transition-fast,
+    transform vars.$transition-fast;
+}
+
+.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.option {
+  padding: 4px 6px;
+  cursor: pointer;
+  transition:
+    background-color vars.$transition-fast,
+    background-color vars.$transition-fast;
+  color: vars.$primary-color;
+  position: relative;
+  display: flex;
+  width: 100%;
+  border: none;
+  background: none;
+
+  .counter {
+    position: absolute;
+    top: 0;
+    right: 6px;
+    font-size: vars.$text-xxs;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: #6c63ff33;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #eee;
+  }
+}
