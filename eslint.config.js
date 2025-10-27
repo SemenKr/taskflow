@@ -6,8 +6,10 @@ export default [
   js.configs.recommended,
   ...ts.configs.recommended,
   {
+    ignores: ['dist/**', 'node_modules/**'],
+  },
+  {
     files: ['**/*.{ts,tsx}'],
-    ignores: ['dist', 'node_modules'],
     languageOptions: {
       parserOptions: {
         ecmaVersion: 2020,
@@ -16,7 +18,7 @@ export default [
       },
     },
     plugins: {
-      reactPlugin,
+      react: reactPlugin,
     },
     rules: {
       '@typescript-eslint/no-unused-vars': 'error',

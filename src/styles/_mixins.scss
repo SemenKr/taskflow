@@ -1,5 +1,10 @@
 // Миксин для flexbox
-@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+@mixin flex(
+  $direction: row,
+  $justify: flex-start,
+  $align: stretch,
+  $wrap: nowrap
+) {
   display: flex;
   flex-direction: $direction;
   justify-content: $justify;

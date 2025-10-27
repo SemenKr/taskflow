@@ -1,6 +1,6 @@
 .flexContainer {
-    display: flex;
-    flex-direction: row-reverse;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .switch {
@@ -30,7 +30,7 @@
 
 .slider::before {
   position: absolute;
-  content: "";
+  content: '';
   height: 22px;
   width: 22px;
   left: 3px;
