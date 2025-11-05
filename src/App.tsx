@@ -33,6 +33,16 @@ export function App() {
     setTasks([]);
   };
 
+  const changeTaskStatus = (
+    taskId: string,
+    newIsDoneStatus: Task['isDone']
+  ) => {
+    const nextState: Task[] = tasks.map((task) =>
+      task.id === taskId ? { ...task, isDone: newIsDoneStatus } : task
+    );
+    setTasks(nextState);
+  };
+
   return (
     <Layout>
       <ToDoList
@@ -43,6 +53,7 @@ export function App() {
         deleteAllTasks={deleteAllTasks}
         addTask={addTask}
         switchMode={switchMode}
+        changeTaskStatus={changeTaskStatus}
       />
     </Layout>
   );

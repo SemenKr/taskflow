@@ -4,16 +4,21 @@ import { Task } from '@/types/todo.ts';
 type TaskItemProps = {
   task: Task;
   onDelete: (id: string) => void;
+  changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
 };
 
-export const TaskItem = ({ task, onDelete }: TaskItemProps) => (
+export const TaskItem = ({
+  task,
+  onDelete,
+  changeTaskStatus,
+}: TaskItemProps) => (
   <li className={styles.todoItem}>
     <input
       className={styles.todoCheckbox}
       type="checkbox"
       id={`task-${task.id}`}
       checked={task.isDone}
-      readOnly
+      onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked)}
     />
     <label
       htmlFor={`task-${task.id}`}
