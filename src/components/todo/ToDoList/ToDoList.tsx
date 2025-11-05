@@ -15,6 +15,7 @@ type Props = {
   addTask: (taskTitle: string) => void;
   switchMode: () => void;
   isDark: boolean;
+  changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
 };
 
 export const ToDoList = ({
@@ -25,6 +26,7 @@ export const ToDoList = ({
   deleteAllTasks,
   addTask,
   switchMode,
+  changeTaskStatus,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');
@@ -91,7 +93,12 @@ export const ToDoList = ({
       ) : (
         <ul className={styles.todoList}>
           {filteredTasks.map((task) => (
-            <TaskItem key={task.id} task={task} onDelete={deleteTask} />
+            <TaskItem
+              key={task.id}
+              task={task}
+              onDelete={deleteTask}
+              changeTaskStatus={changeTaskStatus}
+            />
           ))}
         </ul>
       )}
