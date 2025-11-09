@@ -26,7 +26,6 @@ export const ToDoList = ({
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');
   const inputRef = useRef<HTMLInputElement>(null);
-
   const activeCount = useMemo(
     () => tasks.filter((t) => !t.isDone).length,
     [tasks]
@@ -57,9 +56,7 @@ export const ToDoList = ({
   };
 
   return (
-    // Убираем data-theme - теперь управляется через Layout
     <div className={styles.todo}>
-      {/* Убираем SwitchToggle - теперь он в Header */}
       <h3 className={styles.todoTitle}>{title}</h3>
 
       <div className={styles.todoInputWrapper}>

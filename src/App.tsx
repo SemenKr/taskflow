@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { v1 } from 'uuid';
 import { ToDoList } from './components/todo/ToDoList/ToDoList.tsx';
 import type { Task } from './types/todo.ts';
+import { AddButton } from '@components/common/AddButton/AddButton.tsx';
 
 export function App() {
   const [tasks, setTasks] = useState<Task[]>([
@@ -53,6 +54,7 @@ export function App() {
         addTask={addTask}
         changeTaskStatus={changeTaskStatus}
       />
+      <AddButton onClick={() => console.log('Here Will Be PopUp')} />
     </Layout>
   );
 }
