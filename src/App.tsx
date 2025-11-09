@@ -33,6 +33,14 @@ export function App() {
     setTasks([]);
   };
 
+  const changeTaskTitle = (taskId: string, taskTitle: string) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId ? { ...task, title: taskTitle } : task
+      )
+    );
+  };
+
   const changeTaskStatus = (
     taskId: string,
     newIsDoneStatus: Task['isDone']
@@ -54,6 +62,7 @@ export function App() {
         addTask={addTask}
         switchMode={switchMode}
         changeTaskStatus={changeTaskStatus}
+        changeTaskTitle={changeTaskTitle}
       />
     </Layout>
   );
