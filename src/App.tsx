@@ -44,15 +44,13 @@ export function App() {
   };
 
   return (
-    <Layout>
+    <Layout isDark={isDark} onToggleTheme={switchMode}>
       <ToDoList
-        isDark={isDark}
         title={'What to learn'}
         tasks={tasks}
         deleteTask={deleteTask}
         deleteAllTasks={deleteAllTasks}
         addTask={addTask}
-        switchMode={switchMode}
         changeTaskStatus={changeTaskStatus}
       />
     </Layout>
