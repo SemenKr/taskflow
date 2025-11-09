@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { FilterType, Task } from '../../../types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { SwitchToggle } from '../../common/SwitchToggle/SwitchToggle.tsx';
@@ -6,7 +6,7 @@ import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
 import { Image } from '@components/common/Image/Image.tsx';
 import svgImage from '@/assets/icons/empty-tasks-list.svg';
-import { Input } from '@components/Input.tsx';
+import { TextInput } from '@components/TextInput';
 
 type Props = {
   title: string;
@@ -61,8 +61,8 @@ export const ToDoList = ({
     inputRef.current?.focus();
   };
 
-  const eventInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.currentTarget.value);
+  const eventInputHandler = (value: string) => {
+    setInputValue(value);
   };
 
   return (
@@ -71,24 +71,13 @@ export const ToDoList = ({
       <h3 className={styles.todoTitle}>{title}</h3>
 
       <div className={styles.todoInputWrapper}>
-        <Input
+        <TextInput
           inputValue={inputValue}
           inputRef={inputRef}
-          className={styles.todoInput}
           placeholder={'add new Task...'}
           eventInputHandler={eventInputHandler}
           onKeyDown={addTaskHandler}
-          type={'text'}
         />
-        {/*<input*/}
-        {/*  className={styles.todoInput}*/}
-        {/*  placeholder="add new Task..."*/}
-        {/*  value={inputValue}*/}
-        {/*  type="text"*/}
-        {/*  ref={inputRef}*/}
-        {/*  onChange={(e) => setInputValue(e.currentTarget.value)}*/}
-        {/*  onKeyDown={(e) => e.key === 'Enter' && addTaskHandler()}*/}
-        {/*/>*/}
         <button
           className={styles.todoAddButton}
           onClick={addTaskHandler}
