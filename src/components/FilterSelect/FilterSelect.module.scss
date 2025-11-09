@@ -1,13 +1,7 @@
-@use '@styles/variables' as vars;
-
 .select {
   position: relative;
   max-width: 150px;
-  font-family: vars.$font-secondary;
-}
-
-.select {
-  width: 150px;
+  font-family: 'Kanit', sans-serif; // ← конкретный шрифт
 }
 
 .selectHeader {
@@ -21,31 +15,29 @@
   padding: 10px;
   border: 2px solid transparent;
   border-radius: 5px;
-  background: vars.$primary-color;
-  color: vars.$bg-primary;
+  background: var(--color-primary); // ← CSS переменная
+  color: var(--color-text-accent); // ← CSS переменная
   cursor: pointer;
-  box-shadow: 0 0 4px 0 vars.$primary-color;
-  font-size: vars.$text-lg;
+  box-shadow: 0 0 4px 0 var(--color-primary); // ← CSS переменная
+  font-size: 1.125rem; // 18px
   line-height: 1;
-  font-weight: vars.$font-medium;
+  font-weight: 500;
   text-transform: uppercase;
-  transition:
-    border-color vars.$transition-fast,
-    background-color vars.$transition-fast;
+  transition: all 0.3s ease-in-out;
 
-  user-select: none; // Запрещает выделение текста
-  -webkit-user-select: none; // Для Safari
-  -moz-user-select: none; // Для Firefox
-  -ms-user-select: none; // Для старых IE
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 
   &:hover {
-    border-color: vars.$primary-color;
-    background-color: #534cc2;
+    border-color: var(--color-primary);
+    background-color: #534cc2; // темнее primary
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(vars.$primary-color, 0.2);
+    box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
   }
 }
 
@@ -71,20 +63,18 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  background: vars.$bg-primary;
-  border: 1px solid vars.$primary-color;
+  background: var(--color-bg-primary); // ← CSS переменная
+  border: 1px solid var(--color-primary); // ← CSS переменная
   border-radius: 8px;
   z-index: 500;
-  font-family: vars.$font-secondary;
-  box-shadow: 0 8px 20px rgba(vars.$primary-color, 0.15);
+  font-family: 'Kanit', sans-serif;
+  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.15);
   overflow: hidden;
 
   opacity: 0;
   transform: translateY(-50px);
   pointer-events: none;
-  transition:
-    opacity vars.$transition-fast,
-    transform vars.$transition-fast;
+  transition: all 0.3s ease-in-out;
 }
 
 .open {
@@ -96,10 +86,8 @@
 .option {
   padding: 4px 6px;
   cursor: pointer;
-  transition:
-    background-color vars.$transition-fast,
-    background-color vars.$transition-fast;
-  color: vars.$primary-color;
+  transition: background-color 0.3s ease-in-out;
+  color: var(--color-primary); // ← CSS переменная
   position: relative;
   display: flex;
   width: 100%;
@@ -110,15 +98,15 @@
     position: absolute;
     top: 0;
     right: 6px;
-    font-size: vars.$text-xxs;
+    font-size: 0.5rem; // 8px
     line-height: 1;
   }
 
   &:hover {
-    background: #6c63ff33;
+    background: rgba(108, 99, 255, 0.2); // primary с прозрачностью
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--color-border-light); // ← CSS переменная
   }
 }
