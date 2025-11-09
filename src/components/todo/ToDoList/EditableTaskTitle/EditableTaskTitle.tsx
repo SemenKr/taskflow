@@ -1,6 +1,6 @@
 import { Task } from '@/types/todo.ts';
-import styles from '../TaskItem/TaskItem.module.scss';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import styles from './EditableTaskTitle.module.scss';
 
 type EditableTitleTaskProps = {
   task: Task;
@@ -14,9 +14,32 @@ export const EditableTaskTitle = ({
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>(task.title);
 
-  const toggleEditModeHandler = () => {
-    setIsEditMode(!isEditMode);
-    onChange(editTitle);
+  const enterEditMode = () => {
+    setIsEditMode(true);
+    setEditTitle(task.title);
+  };
+
+  const saveChanges = () => {
+    const trimmedTitle = editTitle.trim();
+    if (trimmedTitle.length === 0) {
+      setEditTitle(task.title);
+    } else {
+      onChange(editTitle);
+    }
+    setIsEditMode(false);
+  };
+
+  const cancelChanges = () => {
+    setEditTitle(task.title);
+    setIsEditMode(false);
+  };
+
+  const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      saveChanges();
+    } else if (event.key === 'Escape') {
+      cancelChanges();
+    }
   };
 
   const editTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,14 +50,16 @@ export const EditableTaskTitle = ({
     <>
       {isEditMode ? (
         <input
+          className={styles.todoInput}
           onChange={editTitleHandler}
-          onBlur={toggleEditModeHandler}
+          onKeyDown={keyPressHandler}
+          onBlur={saveChanges}
           value={editTitle}
           autoFocus
         />
       ) : (
         <span
-          onDoubleClick={toggleEditModeHandler}
+          onDoubleClick={enterEditMode}
           // htmlFor={`task-${task.id}`}
           className={`${styles.todoText} ${task.isDone ? styles.done : ''}`}
         >

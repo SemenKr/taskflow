@@ -27,12 +27,6 @@ export const TaskItem = ({
       task={task}
       onChange={(taskTitle) => changeTaskTitle(task.id, taskTitle)}
     />
-    {/*<label*/}
-    {/*  htmlFor={`task-${task.id}`}*/}
-    {/*  className={`${styles.todoText} ${task.isDone ? styles.done : ''}`}*/}
-    {/*>*/}
-    {/*  {task.title}*/}
-    {/*</label>*/}
     <button
       className={styles.todoDeleteButton}
       onClick={() => onDelete(task.id)}
