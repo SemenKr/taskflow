@@ -1,28 +1,27 @@
-import { Task } from '@/types/todo.ts';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import styles from './EditableTaskTitle.module.scss';
 
 type EditableTitleTaskProps = {
-  task: Task;
+  title: string;
   onChange: (taskTitle: string) => void;
 };
 
 export const EditableTaskTitle = ({
-  task,
+  title,
   onChange,
 }: EditableTitleTaskProps) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [editTitle, setEditTitle] = useState<string>(task.title);
+  const [editTitle, setEditTitle] = useState<string>(title);
 
   const enterEditMode = () => {
     setIsEditMode(true);
-    setEditTitle(task.title);
+    setEditTitle(title);
   };
 
   const saveChanges = () => {
     const trimmedTitle = editTitle.trim();
     if (trimmedTitle.length === 0) {
-      setEditTitle(task.title);
+      setEditTitle(title);
     } else {
       onChange(editTitle);
     }
@@ -30,7 +29,7 @@ export const EditableTaskTitle = ({
   };
 
   const cancelChanges = () => {
-    setEditTitle(task.title);
+    setEditTitle(title);
     setIsEditMode(false);
   };
 
@@ -62,7 +61,7 @@ export const EditableTaskTitle = ({
           onDoubleClick={enterEditMode}
           className={`${styles.todoText} ${styles.editable}`}
         >
-          {task.title}
+          {title}
         </span>
       )}
     </>

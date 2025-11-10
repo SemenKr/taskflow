@@ -24,7 +24,7 @@ export const TaskItem = ({
       onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked)}
     />
     <EditableTaskTitle
-      task={task}
+      title={task.title}
       onChange={(taskTitle) => changeTaskTitle(task.id, taskTitle)}
     />
     <button
