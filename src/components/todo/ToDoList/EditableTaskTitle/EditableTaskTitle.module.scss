@@ -21,25 +21,25 @@
   position: relative;
   cursor: text;
   overflow: visible;
-}
 
-.editable::after {
-  content: "Дважды кликните для редактирования";
-  position: absolute;
-  bottom: 100%;
-  left: 20%;
-  transform: translateX(-50%);
-  background: var(--color-text-primary);
-  color: var(--color-bg-primary);
-  font-size: 12px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease-in-out;
-}
+  &::after {
+    content: "Дважды кликните для редактирования";
+    position: absolute;
+    bottom: 100%;
+    left: 20%;
+    transform: translateX(-50%);
+    background: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
 
-.editable:hover::after {
-  opacity: 1;
+  &:hover::after {
+    opacity: 1;
+  }
 }

@@ -59,7 +59,6 @@ export const EditableTaskTitle = ({
         />
       ) : (
         <span
-          // title={'Дважды кликните для редактирования'}
           onDoubleClick={enterEditMode}
           className={`${styles.todoText} ${styles.editable}`}
         >
