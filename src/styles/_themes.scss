@@ -3,19 +3,21 @@
 :root,
 [data-theme='light'] {
   // Colors
-  --color-primary: #6C63FF;
+  --color-primary: #6c63ff;
+  --color-primary-hover: #534cc2;
   --color-text-primary: #252525;
   --color-text-accent: #f7f7f7;
   --color-text-contrast: #f7f7f7;
   --color-bg-primary: #f7f7f7;
   --color-bg-secondary: #ffffff;
   --color-bg-accent: #252525;
-  --color-border: #6C63FF;
+  --color-border: #6c63ff;
+  --color-gray: #cdcdcd;
+  --color-error: #e50000;
 
   // Shadows
-  --shadow-default: rgba(0, 0, 0, 0.15);
-  --transition-normal: vars.$transition-normal;
-
+  --shadow-default: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  --transition-normal: 0.3s ease-in-out;
 }
 
 // Dark theme
@@ -27,7 +29,7 @@
   --color-bg-primary: #252525;
   --color-bg-secondary: #1a1a1a;
   --color-bg-accent: #f7f7f7;
-  --color-border: #6C63FF;
+  --color-border: #6c63ff;
 
   // Shadows
   --shadow-default: rgba(0, 0, 0, 0.3);
