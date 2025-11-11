@@ -99,7 +99,6 @@ export const ToDoList = ({
           ))}
         </ul>
       )}
-
       <div className={styles.buttonsWrapper}>
         <button
           className={styles.secondaryButton}
