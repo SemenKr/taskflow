@@ -69,8 +69,8 @@ export const ToDoList = ({
 
       <div className={styles.todoInputWrapper}>
         <TextInput
+          aria-label={'Добавление новой таски'}
           inputValue={inputValue}
-          inputRef={inputRef}
           placeholder={'add new Task...'}
           eventInputHandler={eventInputHandler}
           onKeyDown={addTaskHandler}

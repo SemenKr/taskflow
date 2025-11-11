@@ -15,24 +15,24 @@
 }
 
 
-.todoInput {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--color-text-primary);
-  font-size: 1rem;
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  &:focus {
-    background: rgba(255, 255, 255, 0.25);
-    outline: none;
-  }
-}
+//.todoInput {
+//  flex: 1;
+//  padding: 0.7rem 1rem;
+//  border-radius: 12px;
+//  border: none;
+//  background: rgba(255, 255, 255, 0.15);
+//  color: var(--color-text-primary);
+//  font-size: 1rem;
+//
+//  &::placeholder {
+//    color: rgba(255, 255, 255, 0.7);
+//  }
+//
+//  &:focus {
+//    background: rgba(255, 255, 255, 0.25);
+//    outline: none;
+//  }
+//}
 
 
 .todoAddButton {
