@@ -1,14 +1,22 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  RefObject,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import styles from './EditableTaskTitle.module.scss';
 
 type EditableTitleTaskProps = {
   title: string;
   onChange: (taskTitle: string) => void;
+  enterEditModeRef?: RefObject<() => void>;
 };
 
 export const EditableTaskTitle = ({
   title,
   onChange,
+  enterEditModeRef,
 }: EditableTitleTaskProps) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>(title);
@@ -17,6 +25,11 @@ export const EditableTaskTitle = ({
     setIsEditMode(true);
     setEditTitle(title);
   };
+
+  useImperativeHandle(enterEditModeRef, () => () => {
+    setIsEditMode(true);
+    setEditTitle(title);
+  });
 
   const saveChanges = () => {
     const trimmedTitle = editTitle.trim();
@@ -57,10 +70,7 @@ export const EditableTaskTitle = ({
           autoFocus
         />
       ) : (
-        <span
-          onDoubleClick={enterEditMode}
-          className={`${styles.todoText} ${styles.editable}`}
-        >
+        <span onDoubleClick={enterEditMode} className={styles.todoText}>
           {title}
         </span>
       )}
