@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 type LayoutProps = {
   children: ReactNode;
-  isDark?: boolean;
+  isDark: boolean;
   onToggleTheme?: () => void;
 };
 
@@ -23,6 +23,7 @@ export const Layout = ({
               onDarkHandler={onToggleTheme}
               aria-label="Toggle theme"
               size="medium"
+              isDark={isDark}
             />
           )}
         </div>
