@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import type { FilterType, Task } from '../../../types/todo.ts';
+import type { FilterType, Task } from '@/types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
@@ -99,7 +99,6 @@ export const ToDoList = ({
           ))}
         </ul>
       )}
-
       <div className={styles.buttonsWrapper}>
         <button
           className={styles.secondaryButton}
