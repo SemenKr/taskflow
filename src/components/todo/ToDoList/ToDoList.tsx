@@ -13,6 +13,7 @@ type Props = {
   deleteAllTasks: () => void;
   addTask: (taskTitle: string) => void;
   changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
+  changeTaskTitle: (taskId: string, taskTitle: string) => void;
 };
 
 export const ToDoList = ({
@@ -22,6 +23,7 @@ export const ToDoList = ({
   deleteAllTasks,
   addTask,
   changeTaskStatus,
+  changeTaskTitle,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');
@@ -92,6 +94,7 @@ export const ToDoList = ({
               task={task}
               onDelete={deleteTask}
               changeTaskStatus={changeTaskStatus}
+              changeTaskTitle={changeTaskTitle}
             />
           ))}
         </ul>
