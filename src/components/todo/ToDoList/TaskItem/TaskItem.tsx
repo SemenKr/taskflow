@@ -17,12 +17,11 @@ export const TaskItem = ({
   changeTaskStatus,
   changeTaskTitle,
 }: TaskItemProps) => {
-  const editModeRef = useRef<() => void>(null);
+  const editModeRef = useRef<(() => void) | null>(null);
 
   const onChangeHandler = (taskTitle: string) => {
     changeTaskTitle(task.id, taskTitle);
   };
-
   const onClickHandler = () => {
     if (editModeRef.current) {
       editModeRef.current();
@@ -43,7 +42,7 @@ export const TaskItem = ({
         onChange={onChangeHandler}
         enterEditModeRef={editModeRef}
       />
-
+      a
       <div className={styles.todoIcons}>
         <button
           className={styles.todoDeleteButton}
