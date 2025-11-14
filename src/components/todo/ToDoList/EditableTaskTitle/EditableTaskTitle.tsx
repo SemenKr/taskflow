@@ -10,7 +10,7 @@ import styles from './EditableTaskTitle.module.scss';
 type EditableTitleTaskProps = {
   title: string;
   onChange: (taskTitle: string) => void;
-  enterEditModeRef?: RefObject<() => void>;
+  enterEditModeRef?: RefObject<(() => void) | null>;
 };
 
 export const EditableTaskTitle = ({
