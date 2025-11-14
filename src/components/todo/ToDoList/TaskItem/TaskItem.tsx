@@ -42,7 +42,6 @@ export const TaskItem = ({
         onChange={onChangeHandler}
         enterEditModeRef={editModeRef}
       />
-      a
       <div className={styles.todoIcons}>
         <button
           className={styles.todoDeleteButton}
