@@ -3,7 +3,7 @@ import type { FilterType, Task } from '@/types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
-import { Image } from '@components/common/Image/Image.tsx';
+import { Image } from '@/components/common/Image/Image.tsx';
 import svgImage from '@/assets/icons/empty-tasks-list.svg';
 
 type Props = {

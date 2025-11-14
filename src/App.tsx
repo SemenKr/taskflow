@@ -14,9 +14,7 @@ export function App() {
 
   const [isDark, setIsDark] = useState(false);
 
-  const switchMode = () => {
-    setIsDark(!isDark);
-  };
+  const switchMode = () => setIsDark(!isDark);
 
   const addTask = (taskTitle: string) => {
     const newTask = { id: v1(), title: taskTitle, isDone: false };
