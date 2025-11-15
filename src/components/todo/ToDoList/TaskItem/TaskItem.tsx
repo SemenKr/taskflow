@@ -9,6 +9,7 @@ type TaskItemProps = {
   onDelete: (id: string) => void;
   changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
   changeTaskTitle: (taskId: string, taskTitle: string) => void;
+  openModal: (title: string) => void;
 };
 
 export const TaskItem = ({
@@ -16,16 +17,19 @@ export const TaskItem = ({
   onDelete,
   changeTaskStatus,
   changeTaskTitle,
+  openModal,
 }: TaskItemProps) => {
   const editModeRef = useRef<(() => void) | null>(null);
 
   const onChangeHandler = (taskTitle: string) => {
     changeTaskTitle(task.id, taskTitle);
   };
-  const onClickHandler = () => {
-    if (editModeRef.current) {
-      editModeRef.current();
-    }
+
+  const onEditHandler = () => {
+    openModal(task.title);
+    // if (editModeRef.current) {
+    //   editModeRef.current();
+    // }
   };
 
   return (
@@ -44,8 +48,8 @@ export const TaskItem = ({
       />
       <div className={styles.todoIcons}>
         <button
-          className={styles.todoDeleteButton}
-          onClick={onClickHandler}
+          className={styles.todoButton}
+          onClick={onEditHandler}
           aria-label={`Edit ${task.title}`}
         >
           <Icon
@@ -57,7 +61,7 @@ export const TaskItem = ({
         </button>
 
         <button
-          className={styles.todoDeleteButton}
+          className={styles.todoButton}
           onClick={() => onDelete(task.id)}
           aria-label={`Delete ${task.title}`}
         >

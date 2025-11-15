@@ -5,6 +5,8 @@ import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
 import { Image } from '@/components/common/Image/Image.tsx';
 import svgImage from '@/assets/icons/empty-tasks-list.svg';
+import { Modal } from '@components/common/Modal/Modal.tsx';
+import { Button } from '@components/common/Button/Button.tsx';
 
 type Props = {
   title: string;
@@ -26,12 +28,16 @@ export const ToDoList = ({
   changeTaskTitle,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
+  const [modalValue, setModalValue] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
   const activeCount = useMemo(
     () => tasks.filter((t) => !t.isDone).length,
     [tasks]
   );
+
   const completedCount = useMemo(
     () => tasks.filter((t) => t.isDone).length,
     [tasks]
@@ -51,10 +57,16 @@ export const ToDoList = ({
   const addTaskHandler = () => {
     const trimmedValue = inputValue.trim();
     if (!trimmedValue) return;
-
     addTask(trimmedValue);
     setInputValue('');
     inputRef.current?.focus();
+  };
+
+  const openModal = (title: string) => {
+    if (title) {
+      setModalValue(title);
+    }
+    setIsModalOpen(true);
   };
 
   return (
@@ -95,6 +107,7 @@ export const ToDoList = ({
               onDelete={deleteTask}
               changeTaskStatus={changeTaskStatus}
               changeTaskTitle={changeTaskTitle}
+              openModal={openModal}
             />
           ))}
         </ul>
@@ -115,6 +128,18 @@ export const ToDoList = ({
           completedCount={completedCount}
         />
       </div>
+      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h3 className={styles.modalTitle}>NEW TASKS</h3>
+        <input
+          className={styles.modalInput}
+          value={modalValue}
+          onChange={(event) => setModalValue(event.currentTarget.value)}
+        />
+        <div className={styles.modalAction}>
+          <Button onClick={() => setIsModalOpen(false)}>CANCEL</Button>
+          <Button onClick={() => {}}>APPLY</Button>
+        </div>
+      </Modal>
     </div>
   );
 };

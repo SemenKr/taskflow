@@ -1,5 +1,6 @@
 // Light theme (default)
 @use 'variables' as vars;
+
 :root,
 [data-theme='light'] {
   // Colors
@@ -18,6 +19,9 @@
   // Shadows
   --shadow-default: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   --transition-normal: 0.3s ease-in-out;
+
+  // Modal
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
 }
 
 // Dark theme
@@ -33,4 +37,7 @@
 
   // Shadows
   --shadow-default: rgba(0, 0, 0, 0.3);
+
+  // Modal
+  --color-bg-overlay: rgba(255, 255, 255, 0.5);
 }

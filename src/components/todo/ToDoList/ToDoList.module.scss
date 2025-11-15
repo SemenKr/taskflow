@@ -4,9 +4,15 @@
   padding: 2rem 1.8rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 10px 25px var(--shadow-default);
-  transition:
-    color var(--transition-normal),
-    background-color var(--transition-normal);
+  transition: color var(--transition-normal),
+  background-color var(--transition-normal);
+}
+
+.todoTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 26px;
+  color: var(--color-text-primary);
 }
 
 .todoInputWrapper {
@@ -77,3 +83,42 @@
     opacity: 0.5;
   }
 }
+
+.emptyTaskWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+
+  .todoEmpty {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+  }
+}
+
+.modalTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin-bottom: 25px;
+}
+
+.modalInput {
+  margin-bottom: 128px;
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+}
+
+.modalAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
