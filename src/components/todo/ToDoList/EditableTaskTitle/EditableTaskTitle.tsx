@@ -1,22 +1,14 @@
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  RefObject,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import styles from './EditableTaskTitle.module.scss';
 
 type EditableTitleTaskProps = {
   title: string;
   onChange: (taskTitle: string) => void;
-  enterEditModeRef?: RefObject<(() => void) | null>;
 };
 
 export const EditableTaskTitle = ({
   title,
   onChange,
-  enterEditModeRef,
 }: EditableTitleTaskProps) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>(title);
@@ -26,14 +18,9 @@ export const EditableTaskTitle = ({
     setEditTitle(title);
   };
 
-  useImperativeHandle(enterEditModeRef, () => () => {
-    setIsEditMode(true);
-    setEditTitle(title);
-  });
-
   const saveChanges = () => {
     const trimmedTitle = editTitle.trim();
-    if (trimmedTitle.length === 0) {
+    if (!trimmedTitle) {
       setEditTitle(title);
     } else {
       onChange(editTitle);

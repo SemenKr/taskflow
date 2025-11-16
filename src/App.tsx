@@ -13,7 +13,6 @@ export function App() {
   ]);
 
   const [isDark, setIsDark] = useState(false);
-
   const switchMode = () => setIsDark(!isDark);
 
   const addTask = (taskTitle: string) => {
