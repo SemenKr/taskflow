@@ -1,4 +1,4 @@
-import { KeyboardEvent, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
 import type { FilterType, Task } from '@/types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
@@ -89,7 +89,7 @@ export const ToDoList = ({
     closeModalHandler();
   };
 
-  const changeModalHandler = (event) => {
+  const changeModalHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setModalInputValue(event.currentTarget.value);
   };
 
