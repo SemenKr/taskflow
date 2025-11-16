@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { KeyboardEvent, useMemo, useRef, useState } from 'react';
 import type { FilterType, Task } from '@/types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
@@ -28,10 +28,12 @@ export const ToDoList = ({
   changeTaskTitle,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
-  const [modalValue, setModalValue] = useState('');
+  const [modalInputValue, setModalInputValue] = useState('');
+  const [editableTaskId, setEditableTaskId] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterType>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [originalValue, setOriginalValue] = useState('');
 
   const activeCount = useMemo(
     () => tasks.filter((t) => !t.isDone).length,
@@ -62,11 +64,43 @@ export const ToDoList = ({
     inputRef.current?.focus();
   };
 
-  const openModal = (title: string) => {
-    if (title) {
-      setModalValue(title);
-    }
+  const isApplyDisabled =
+    modalInputValue.trim() === '' ||
+    modalInputValue.trim() === originalValue.trim();
+
+  const openModal = (taskId: string, taskTitle: string) => {
+    setModalInputValue(taskTitle);
+    setEditableTaskId(taskId);
+    setOriginalValue(taskTitle);
     setIsModalOpen(true);
+  };
+
+  const closeModalHandler = () => {
+    setIsModalOpen(false);
+  };
+
+  const saveModalInputValue = () => {
+    if (!editableTaskId) return;
+    const trimmedTitle = modalInputValue.trim();
+    if (!trimmedTitle) {
+      closeModalHandler();
+    }
+    changeTaskTitle(editableTaskId, trimmedTitle);
+    closeModalHandler();
+  };
+
+  const changeModalHandler = (event) => {
+    setModalInputValue(event.currentTarget.value);
+  };
+
+  const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      if (!isApplyDisabled) {
+        saveModalInputValue();
+      } else {
+        closeModalHandler();
+      }
+    }
   };
 
   return (
@@ -128,16 +162,20 @@ export const ToDoList = ({
           completedCount={completedCount}
         />
       </div>
-      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal open={isModalOpen} onClose={closeModalHandler}>
         <h3 className={styles.modalTitle}>NEW TASKS</h3>
         <input
           className={styles.modalInput}
-          value={modalValue}
-          onChange={(event) => setModalValue(event.currentTarget.value)}
+          value={modalInputValue}
+          onChange={changeModalHandler}
+          onKeyDown={keyPressHandler}
+          autoFocus
         />
         <div className={styles.modalAction}>
-          <Button onClick={() => setIsModalOpen(false)}>CANCEL</Button>
-          <Button onClick={() => {}}>APPLY</Button>
+          <Button onClick={closeModalHandler}>CANCEL</Button>
+          <Button onClick={saveModalInputValue} disabled={isApplyDisabled}>
+            APPLY
+          </Button>
         </div>
       </Modal>
     </div>

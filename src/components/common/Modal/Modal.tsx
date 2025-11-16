@@ -1,5 +1,5 @@
 import styles from './Modal.module.scss';
-import { ReactNode, MouseEvent } from 'react';
+import { ReactNode, MouseEvent, useEffect } from 'react';
 
 type ModalProps = {
   open: boolean;
@@ -8,6 +8,19 @@ type ModalProps = {
 };
 
 export const Modal = ({ open, onClose, children }: ModalProps) => {
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   const overlayClickHandler = (event: MouseEvent<HTMLDivElement>) => {
