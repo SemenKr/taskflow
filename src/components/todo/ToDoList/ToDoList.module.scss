@@ -4,8 +4,9 @@
   padding: 2rem 1.8rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 10px 25px var(--shadow-default);
-  transition: color var(--transition-normal),
-  background-color var(--transition-normal);
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal);
 }
 
 .todoTitle {
@@ -120,5 +121,3 @@
   align-items: center;
   justify-content: space-between;
 }
-
-
