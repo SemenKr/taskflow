@@ -2,6 +2,7 @@ import styles from './TaskItem.module.scss';
 import { Task } from '@/types/todo.ts';
 import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
 import { Icon } from '@components/common/Icon/Icon.tsx';
+import { Button } from '@components/common/Button/Button.tsx';
 
 type TaskItemProps = {
   task: Task;
@@ -37,31 +38,34 @@ export const TaskItem = ({
       />
       <EditableTaskTitle title={task.title} onChange={onChangeHandler} />
       <div className={styles.todoIcons}>
-        <button
-          className={styles.todoButton}
+        <Button
           onClick={onEditHandler}
           aria-label={`Edit ${task.title}`}
-        >
-          <Icon
-            name={'edit'}
-            size={'14'}
-            color={'#CDCDCD'}
-            hoverColor={'#6C63FF'}
-          />
-        </button>
-
-        <button
-          className={styles.todoButton}
+          startIcon={
+            <Icon
+              name={'edit'}
+              size={'14'}
+              color={'#CDCDCD'}
+              hoverColor={'#6C63FF'}
+            />
+          }
+          iconOnly
+          variant="ghost"
+        />
+        <Button
           onClick={() => onDelete(task.id)}
           aria-label={`Delete ${task.title}`}
-        >
-          <Icon
-            name={'delete'}
-            size={'16'}
-            color={'#CDCDCD'}
-            hoverColor={'#E50000'}
-          />
-        </button>
+          startIcon={
+            <Icon
+              name={'delete'}
+              size={'16'}
+              color={'#CDCDCD'}
+              hoverColor={'#E50000'}
+            />
+          }
+          iconOnly
+          variant="ghost-danger"
+        />
       </div>
     </li>
   );

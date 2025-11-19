@@ -3,7 +3,7 @@ import { Eye, EyeOff, AlertCircle, Check } from 'lucide-react';
 import styles from './TextInput.module.scss';
 
 interface TextInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'> {
   label?: string;
   type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'number' | 'search';
   value?: string;
@@ -13,6 +13,7 @@ interface TextInputProps
   success?: string;
   disabled?: boolean;
   required?: boolean;
+  size?: 'small' | 'medium' | 'large';
   helperText?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -34,6 +35,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       success,
       disabled = false,
       required = false,
+      size = 'medium',
       helperText,
       leftIcon,
       rightIcon,
@@ -65,6 +67,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       error && styles.inputError,
       success && styles.inputSuccess,
       disabled && styles.inputDisabled,
+      size && styles[`size-${size}`],
     ]
       .filter(Boolean)
       .join(' ');
