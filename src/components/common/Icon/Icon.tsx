@@ -45,8 +45,8 @@ export const Icon = ({
   size,
   className,
   name,
-  color = {},
-  hoverColor = {},
+  color = '',
+  hoverColor = '',
 }: IconProps) => {
   const [hover, setHover] = useState(false);
 
