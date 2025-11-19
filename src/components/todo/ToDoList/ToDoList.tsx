@@ -7,6 +7,7 @@ import { Image } from '@/components/common/Image/Image.tsx';
 import svgImage from '@/assets/icons/empty-tasks-list.svg';
 import { Modal } from '@components/common/Modal/Modal.tsx';
 import { Button } from '@components/common/Button/Button.tsx';
+import { TextInput } from '@components/common/input/TextInput.tsx';
 
 type Props = {
   title: string;
@@ -108,12 +109,9 @@ export const ToDoList = ({
       <h3 className={styles.todoTitle}>{title}</h3>
 
       <div className={styles.todoInputWrapper}>
-        <input
-          className={styles.todoInput}
-          placeholder="add new Task..."
+        <TextInput
+          placeholder={'add new Task...'}
           value={inputValue}
-          type="text"
-          ref={inputRef}
           onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={(e) => e.key === 'Enter' && addTaskHandler()}
         />
@@ -147,13 +145,13 @@ export const ToDoList = ({
         </ul>
       )}
       <div className={styles.buttonsWrapper}>
-        <button
-          className={styles.secondaryButton}
+        <Button
+          variant="default"
           onClick={deleteAllTasks}
           disabled={tasks.length === 0}
         >
           Delete All Tasks
-        </button>
+        </Button>
         <FilterSelect
           filter={filter}
           onFilterChange={setFilter}
@@ -164,8 +162,7 @@ export const ToDoList = ({
       </div>
       <Modal open={isModalOpen} onClose={closeModalHandler}>
         <h3 className={styles.modalTitle}>NEW TASKS</h3>
-        <input
-          className={styles.modalInput}
+        <TextInput
           value={modalInputValue}
           onChange={changeModalHandler}
           onKeyDown={keyPressHandler}

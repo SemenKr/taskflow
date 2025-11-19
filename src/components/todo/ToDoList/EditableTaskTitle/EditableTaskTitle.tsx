@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import styles from './EditableTaskTitle.module.scss';
+import { TextInput } from '@components/common/input/TextInput.tsx';
 
 type EditableTitleTaskProps = {
   title: string;
@@ -48,13 +49,13 @@ export const EditableTaskTitle = ({
   return (
     <>
       {isEditMode ? (
-        <input
-          className={styles.todoInput}
+        <TextInput
           onChange={editTitleHandler}
           onKeyDown={keyPressHandler}
           onBlur={saveChanges}
           value={editTitle}
           autoFocus
+          size={'small'}
         />
       ) : (
         <span onDoubleClick={enterEditMode} className={styles.todoText}>

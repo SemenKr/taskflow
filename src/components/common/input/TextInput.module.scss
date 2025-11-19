@@ -39,6 +39,49 @@
   }
 }
 
+// Стили для размеров
+.size-small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  height: 2rem;
+
+  &.inputWithLeftIcon {
+    padding-left: 2.25rem;
+  }
+
+  &.inputWithRightIcon {
+    padding-right: 2.25rem;
+  }
+}
+
+.size-medium {
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  height: 2.5rem;
+
+  &.inputWithLeftIcon {
+    padding-left: 2.75rem;
+  }
+
+  &.inputWithRightIcon {
+    padding-right: 2.75rem;
+  }
+}
+
+.size-large {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.125rem;
+  height: 3rem;
+
+  &.inputWithLeftIcon {
+    padding-left: 3.25rem;
+  }
+
+  &.inputWithRightIcon {
+    padding-right: 3.25rem;
+  }
+}
+
 .inputWithLeftIcon {
   padding-left: 2.75rem;
 }
@@ -118,6 +161,79 @@
 
   &:hover {
     color: var(--color-gray);
+  }
+}
+
+// Адаптация иконок под размеры
+.size-small {
+  .leftIcon,
+  .rightIcon,
+  .errorIcon,
+  .successIcon,
+  .passwordToggle {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .leftIcon {
+    left: 0.5rem;
+  }
+
+  .rightIcon,
+  .errorIcon,
+  .successIcon,
+  .passwordToggle {
+    right: 0.5rem;
+  }
+}
+
+.size-medium {
+  .leftIcon,
+  .rightIcon,
+  .errorIcon,
+  .successIcon,
+  .passwordToggle {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .leftIcon {
+    left: 0.75rem;
+  }
+
+  .rightIcon,
+  .errorIcon,
+  .successIcon,
+  .passwordToggle {
+    right: 0.75rem;
+  }
+}
+
+.size-large {
+  .leftIcon,
+  .rightIcon,
+  .errorIcon,
+  .successIcon,
+  .passwordToggle {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .leftIcon {
+    left: 1rem;
+  }
+
+  .rightIcon,
+  .errorIcon,
+  .successIcon,
+  .passwordToggle {
+    right: 1rem;
   }
 }
 
