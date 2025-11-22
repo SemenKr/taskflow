@@ -41,6 +41,9 @@
   max-width: vars.$container-max-width;
   margin: 0 auto;
   padding: 0 2rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .layout__footer {

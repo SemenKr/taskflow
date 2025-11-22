@@ -1,66 +1,113 @@
 import { Layout } from './components/Layout/Layout.tsx';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { v1 } from 'uuid';
 import { ToDoList } from './components/todo/ToDoList/ToDoList.tsx';
-import type { Task } from './types/todo.ts';
+import type { TasksStateType, TaskType, TodolistType } from './types/todo.ts';
 import { AddButton } from '@components/common/AddButton/AddButton.tsx';
 
 export function App() {
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: v1(), title: 'HTML&CSS', isDone: true },
-    { id: v1(), title: 'JS', isDone: true },
-    { id: v1(), title: 'ReactJS', isDone: false },
+  const todolistId1 = v1() as string;
+  const todolistId2 = v1() as string;
+
+  const [todoLists, setTodoLists] = useState<TodolistType[]>([
+    { id: todolistId1, title: 'What to learn', filter: 'all' },
+    { id: todolistId2, title: 'What to buy', filter: 'all' },
   ]);
+
+  const [tasks, setTasks] = useState<TasksStateType>({
+    [todolistId1]: [
+      { id: v1() as string, title: 'HTML&CSS', isDone: true },
+      { id: v1() as string, title: 'JS', isDone: true },
+      { id: v1() as string, title: 'ReactJS', isDone: false },
+      { id: v1() as string, title: 'Rest API', isDone: true },
+      { id: v1() as string, title: 'GraphQL', isDone: false },
+    ],
+    [todolistId2]: [
+      { id: v1() as string, title: 'Rest API', isDone: true },
+      { id: v1() as string, title: 'GraphQL', isDone: false },
+      { id: v1() as string, title: 'JS', isDone: true },
+      { id: v1() as string, title: 'ReactJS', isDone: false },
+    ],
+  });
 
   const [isDark, setIsDark] = useState(false);
   const switchMode = () => setIsDark(!isDark);
 
-  const addTask = (taskTitle: string) => {
+  const addTask = (todolistId: string, taskTitle: string) => {
     const newTask = { id: v1(), title: taskTitle, isDone: false };
-    setTasks((prev) => [...prev, newTask]);
+    setTasks((prev) => ({
+      ...prev,
+      [todolistId]: [newTask, ...tasks[todolistId]],
+    }));
   };
 
-  const deleteTask = (taskId: string) => {
-    const filteredTasks = tasks.filter((task) => {
-      return task.id !== taskId;
-    });
-    setTasks(filteredTasks);
+  const deleteTask = (todolistId: string, taskId: string) => {
+    setTasks((prev) => ({
+      ...prev,
+      [todolistId]: prev[todolistId].filter((task) => task.id !== taskId),
+    }));
   };
 
-  const deleteAllTasks = () => {
-    setTasks([]);
+  const deleteAllTasks = (todolistId: string) => {
+    setTasks((prev) => ({ ...prev, [todolistId]: [] }));
+    // setTasks([]);
   };
 
-  const changeTaskTitle = (taskId: string, taskTitle: string) => {
-    setTasks((prev) =>
-      prev.map((task) =>
+  const changeTaskTitle = (
+    todolistId: string,
+    taskId: string,
+    taskTitle: string
+  ) => {
+    setTasks((prev) => ({
+      ...prev,
+      [todolistId]: prev[todolistId].map((task) =>
         task.id === taskId ? { ...task, title: taskTitle } : task
-      )
-    );
+      ),
+    }));
   };
 
   const changeTaskStatus = (
+    todolistId: string,
     taskId: string,
-    newIsDoneStatus: Task['isDone']
+    newIsDoneStatus: TaskType['isDone']
   ) => {
-    const nextState: Task[] = tasks.map((task) =>
-      task.id === taskId ? { ...task, isDone: newIsDoneStatus } : task
-    );
-    setTasks(nextState);
+    setTasks((prev) => ({
+      ...prev,
+      [todolistId]: prev[todolistId].map((task) =>
+        task.id === taskId ? { ...task, isDone: newIsDoneStatus } : task
+      ),
+    }));
+  };
+
+  const addTodoList = (newTitle: string) => {
+    const todolistId = v1() as string;
+    const newTodolist: TodolistType = {
+      id: todolistId,
+      title: newTitle,
+      filter: 'all',
+    };
+    setTodoLists((prevState) => [newTodolist, ...prevState]);
+    setTasks((prevState) => ({ ...prevState, [todolistId]: [] }));
   };
 
   return (
     <Layout isDark={isDark} onToggleTheme={switchMode}>
-      <ToDoList
-        title={'What to learn'}
-        tasks={tasks}
-        deleteTask={deleteTask}
-        deleteAllTasks={deleteAllTasks}
-        addTask={addTask}
-        changeTaskStatus={changeTaskStatus}
-        changeTaskTitle={changeTaskTitle}
-      />
-      <AddButton onClick={() => console.log('Here Will Be PopUp')} />
+      {todoLists.map(
+        (todolist) =>
+          (
+            <ToDoList
+              key={todolist.id}
+              todolist={todolist}
+              tasks={tasks[todolist.id]}
+              deleteTask={deleteTask}
+              deleteAllTasks={deleteAllTasks}
+              addTask={addTask}
+              changeTaskTitle={changeTaskTitle}
+              changeTaskStatus={changeTaskStatus}
+            />
+          ) as ReactNode
+      )}
+      <AddButton onClick={() => addTodoList('New Todolist')} />
     </Layout>
   );
 }

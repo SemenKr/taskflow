@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
-import type { FilterType, Task } from '@/types/todo.ts';
+import type { FilterType, TaskType, TodolistType } from '@/types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
@@ -10,23 +10,31 @@ import { Button } from '@components/common/Button/Button.tsx';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 
 type Props = {
-  title: string;
-  tasks: Task[];
-  deleteTask: (taskId: string) => void;
-  deleteAllTasks: () => void;
-  addTask: (taskTitle: string) => void;
-  changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
-  changeTaskTitle: (taskId: string, taskTitle: string) => void;
+  todolist: TodolistType;
+  tasks: TaskType[];
+  deleteTask: (todolistId: string, taskId: string) => void;
+  deleteAllTasks: (todolistId: string) => void;
+  addTask: (todolistId: string, taskTitle: string) => void;
+  changeTaskTitle: (
+    todolistId: string,
+    taskId: string,
+    taskTitle: string
+  ) => void;
+  changeTaskStatus: (
+    todolistId: string,
+    taskId: string,
+    newIsDoneStatus: TaskType['isDone']
+  ) => void;
 };
 
 export const ToDoList = ({
-  title,
+  todolist,
   tasks,
   deleteTask,
   deleteAllTasks,
   addTask,
-  changeTaskStatus,
   changeTaskTitle,
+  changeTaskStatus,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
   const [modalInputValue, setModalInputValue] = useState('');
@@ -60,9 +68,13 @@ export const ToDoList = ({
   const addTaskHandler = () => {
     const trimmedValue = inputValue.trim();
     if (!trimmedValue) return;
-    addTask(trimmedValue);
+    addTask(todolist.id, trimmedValue);
     setInputValue('');
     inputRef.current?.focus();
+  };
+
+  const deleteAllTasksHandler = () => {
+    deleteAllTasks(todolist.id);
   };
 
   const isApplyDisabled =
@@ -86,7 +98,7 @@ export const ToDoList = ({
     if (!trimmedTitle) {
       closeModalHandler();
     }
-    changeTaskTitle(editableTaskId, trimmedTitle);
+    changeTaskTitle(todolist.id, editableTaskId, trimmedTitle);
     closeModalHandler();
   };
 
@@ -106,7 +118,7 @@ export const ToDoList = ({
 
   return (
     <div className={styles.todo}>
-      <h3 className={styles.todoTitle}>{title}</h3>
+      <h3 className={styles.todoTitle}>{todolist.title}</h3>
 
       <div className={styles.todoInputWrapper}>
         <TextInput
@@ -135,6 +147,7 @@ export const ToDoList = ({
           {filteredTasks.map((task) => (
             <TaskItem
               key={task.id}
+              todolist={todolist}
               task={task}
               onDelete={deleteTask}
               changeTaskStatus={changeTaskStatus}
@@ -147,7 +160,7 @@ export const ToDoList = ({
       <div className={styles.buttonsWrapper}>
         <Button
           variant="default"
-          onClick={deleteAllTasks}
+          onClick={deleteAllTasksHandler}
           disabled={tasks.length === 0}
         >
           Delete All Tasks

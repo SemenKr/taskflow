@@ -1,18 +1,29 @@
 import styles from './TaskItem.module.scss';
-import { Task } from '@/types/todo.ts';
+import { TaskType, TodolistType } from '@/types/todo.ts';
 import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
 import { Icon } from '@components/common/Icon/Icon.tsx';
 import { Button } from '@components/common/Button/Button.tsx';
+import { ReactNode } from 'react';
 
 type TaskItemProps = {
-  task: Task;
-  onDelete: (id: string) => void;
-  changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
-  changeTaskTitle: (taskId: string, taskTitle: string) => void;
+  todolist: TodolistType;
+  task: TaskType;
+  onDelete: (todolistId: string, id: string) => void;
+  changeTaskStatus: (
+    todolistId: string,
+    taskId: string,
+    newIsDoneStatus: TaskType['isDone']
+  ) => void;
+  changeTaskTitle: (
+    todolistId: string,
+    taskId: string,
+    taskTitle: string
+  ) => void;
   openModal: (taskId: string, taskTitle: string) => void;
 };
 
 export const TaskItem = ({
+  todolist,
   task,
   onDelete,
   changeTaskStatus,
@@ -20,7 +31,7 @@ export const TaskItem = ({
   openModal,
 }: TaskItemProps) => {
   const onChangeHandler = (taskTitle: string) => {
-    changeTaskTitle(task.id, taskTitle);
+    changeTaskTitle(todolist.id, task.id, taskTitle);
   };
 
   const onEditHandler = () => {
@@ -34,7 +45,9 @@ export const TaskItem = ({
         type="checkbox"
         id={`task-${task.id}`}
         checked={task.isDone}
-        onChange={(e) => changeTaskStatus(task.id, e.currentTarget.checked)}
+        onChange={(e) =>
+          changeTaskStatus(todolist.id, task.id, e.currentTarget.checked)
+        }
       />
       <EditableTaskTitle title={task.title} onChange={onChangeHandler} />
       <div className={styles.todoIcons}>
@@ -42,26 +55,30 @@ export const TaskItem = ({
           onClick={onEditHandler}
           aria-label={`Edit ${task.title}`}
           startIcon={
-            <Icon
-              name={'edit'}
-              size={'14'}
-              color={'#CDCDCD'}
-              hoverColor={'#6C63FF'}
-            />
+            (
+              <Icon
+                name="edit"
+                size="14"
+                color="#CDCDCD"
+                hoverColor="#6C63FF"
+              />
+            ) as ReactNode
           }
           iconOnly
           variant="ghost"
         />
         <Button
-          onClick={() => onDelete(task.id)}
+          onClick={() => onDelete(todolist.id, task.id)}
           aria-label={`Delete ${task.title}`}
           startIcon={
-            <Icon
-              name={'delete'}
-              size={'16'}
-              color={'#CDCDCD'}
-              hoverColor={'#E50000'}
-            />
+            (
+              <Icon
+                name="delete"
+                size="16"
+                color="#CDCDCD"
+                hoverColor="#E50000"
+              />
+            ) as ReactNode
           }
           iconOnly
           variant="ghost-danger"
