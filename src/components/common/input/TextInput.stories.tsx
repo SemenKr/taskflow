@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+
 import { Mail, Lock, User, Phone, Search } from 'lucide-react';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 

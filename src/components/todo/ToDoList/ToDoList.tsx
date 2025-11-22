@@ -1,5 +1,5 @@
-import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
-import type { FilterType, Task } from '@/types/todo.ts';
+import { useMemo, useRef, useState } from 'react';
+import type { FilterType, TaskType, TodolistType } from '@/types/todo.ts';
 import styles from './ToDoList.module.scss';
 import { FilterSelect } from '@components/FilterSelect/FilterSelect.tsx';
 import { TaskItem } from '@components/todo/ToDoList/TaskItem/TaskItem.tsx';
@@ -8,33 +8,39 @@ import svgImage from '@/assets/icons/empty-tasks-list.svg';
 import { Modal } from '@components/common/Modal/Modal.tsx';
 import { Button } from '@components/common/Button/Button.tsx';
 import { TextInput } from '@components/common/input/TextInput.tsx';
+import { useEditModal } from '@/hooks/useEditModal.ts';
+import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
 
 type Props = {
-  title: string;
-  tasks: Task[];
-  deleteTask: (taskId: string) => void;
-  deleteAllTasks: () => void;
-  addTask: (taskTitle: string) => void;
-  changeTaskStatus: (taskId: string, newIsDoneStatus: Task['isDone']) => void;
-  changeTaskTitle: (taskId: string, taskTitle: string) => void;
+  todolist: TodolistType;
+  tasks: TaskType[];
+  deleteTask: (todolistId: string, taskId: string) => void;
+  deleteAllTasks: (todolistId: string) => void;
+  addTask: (todolistId: string, taskTitle: string) => void;
+  changeTaskTitle: (
+    todolistId: string,
+    taskId: string,
+    taskTitle: string
+  ) => void;
+  changeTaskStatus: (
+    todolistId: string,
+    taskId: string,
+    newIsDoneStatus: TaskType['isDone']
+  ) => void;
 };
 
 export const ToDoList = ({
-  title,
+  todolist,
   tasks,
   deleteTask,
   deleteAllTasks,
   addTask,
-  changeTaskStatus,
   changeTaskTitle,
+  changeTaskStatus,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
-  const [modalInputValue, setModalInputValue] = useState('');
-  const [editableTaskId, setEditableTaskId] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterType>('all');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [originalValue, setOriginalValue] = useState('');
 
   const activeCount = useMemo(
     () => tasks.filter((t) => !t.isDone).length,
@@ -60,53 +66,28 @@ export const ToDoList = ({
   const addTaskHandler = () => {
     const trimmedValue = inputValue.trim();
     if (!trimmedValue) return;
-    addTask(trimmedValue);
+    addTask(todolist.id, trimmedValue);
     setInputValue('');
     inputRef.current?.focus();
   };
 
-  const isApplyDisabled =
-    modalInputValue.trim() === '' ||
-    modalInputValue.trim() === originalValue.trim();
+  const deleteAllModal = useEditModal(() => {
+    deleteAllTasks(todolist.id);
+  });
+
+  const EditModal = useEditModal((newTitle, taskId) => {
+    if (taskId && newTitle !== undefined) {
+      changeTaskTitle(todolist.id, taskId, newTitle);
+    }
+  });
 
   const openModal = (taskId: string, taskTitle: string) => {
-    setModalInputValue(taskTitle);
-    setEditableTaskId(taskId);
-    setOriginalValue(taskTitle);
-    setIsModalOpen(true);
-  };
-
-  const closeModalHandler = () => {
-    setIsModalOpen(false);
-  };
-
-  const saveModalInputValue = () => {
-    if (!editableTaskId) return;
-    const trimmedTitle = modalInputValue.trim();
-    if (!trimmedTitle) {
-      closeModalHandler();
-    }
-    changeTaskTitle(editableTaskId, trimmedTitle);
-    closeModalHandler();
-  };
-
-  const changeModalHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setModalInputValue(event.currentTarget.value);
-  };
-
-  const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      if (!isApplyDisabled) {
-        saveModalInputValue();
-      } else {
-        closeModalHandler();
-      }
-    }
+    EditModal.open(taskId, taskTitle);
   };
 
   return (
     <div className={styles.todo}>
-      <h3 className={styles.todoTitle}>{title}</h3>
+      <h3 className={styles.todoTitle}>{todolist.title}</h3>
 
       <div className={styles.todoInputWrapper}>
         <TextInput
@@ -135,6 +116,7 @@ export const ToDoList = ({
           {filteredTasks.map((task) => (
             <TaskItem
               key={task.id}
+              todolist={todolist}
               task={task}
               onDelete={deleteTask}
               changeTaskStatus={changeTaskStatus}
@@ -147,7 +129,7 @@ export const ToDoList = ({
       <div className={styles.buttonsWrapper}>
         <Button
           variant="default"
-          onClick={deleteAllTasks}
+          onClick={() => deleteAllModal.open(null, '', 'confirm')}
           disabled={tasks.length === 0}
         >
           Delete All Tasks
@@ -160,20 +142,32 @@ export const ToDoList = ({
           completedCount={completedCount}
         />
       </div>
-      <Modal open={isModalOpen} onClose={closeModalHandler}>
-        <h3 className={styles.modalTitle}>NEW TASKS</h3>
-        <TextInput
-          value={modalInputValue}
-          onChange={changeModalHandler}
-          onKeyDown={keyPressHandler}
-          autoFocus
-        />
-        <div className={styles.modalAction}>
-          <Button onClick={closeModalHandler}>CANCEL</Button>
-          <Button onClick={saveModalInputValue} disabled={isApplyDisabled}>
-            APPLY
-          </Button>
-        </div>
+      <Modal open={EditModal.isOpen} onClose={EditModal.close}>
+        <ModalLayout
+          title={'Edit task'}
+          onCancel={EditModal.close}
+          onConfirm={EditModal.apply}
+          confirmText="Apply"
+          confirmDisabled={EditModal.isApplyDisabled}
+        >
+          <TextInput
+            value={EditModal.value}
+            onChange={EditModal.changeHandler}
+            onKeyDown={EditModal.keyHandler}
+            autoFocus
+          />
+        </ModalLayout>
+      </Modal>
+
+      <Modal open={deleteAllModal.isOpen} onClose={deleteAllModal.close}>
+        <ModalLayout
+          title="Delete all tasks"
+          onCancel={deleteAllModal.close}
+          onConfirm={deleteAllModal.apply}
+          confirmText="Delete"
+        >
+          <p>Are you sure you want to delete all tasks?</p>
+        </ModalLayout>
       </Modal>
     </div>
   );
