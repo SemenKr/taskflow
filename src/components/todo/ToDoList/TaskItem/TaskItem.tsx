@@ -4,6 +4,9 @@ import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/E
 import { Icon } from '@components/common/Icon/Icon.tsx';
 import { Button } from '@components/common/Button/Button.tsx';
 import { ReactNode } from 'react';
+import { Modal } from '@components/common/Modal/Modal.tsx';
+import { useEditModal } from '@/hooks/useEditModal.ts';
+import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
 
 type TaskItemProps = {
   todolist: TodolistType;
@@ -38,6 +41,10 @@ export const TaskItem = ({
     openModal(task.id, task.title);
   };
 
+  const deleteModal = useEditModal(() => {
+    onDelete(todolist.id, task.id);
+  });
+
   return (
     <li className={styles.todoItem}>
       <input
@@ -68,7 +75,7 @@ export const TaskItem = ({
           variant="ghost"
         />
         <Button
-          onClick={() => onDelete(todolist.id, task.id)}
+          onClick={() => deleteModal.open(task.id, '', 'confirm')}
           aria-label={`Delete ${task.title}`}
           startIcon={
             (
@@ -84,6 +91,18 @@ export const TaskItem = ({
           variant="ghost-danger"
         />
       </div>
+      <Modal open={deleteModal.isOpen} onClose={deleteModal.close}>
+        <ModalLayout
+          title="Delete task"
+          onCancel={deleteModal.close}
+          onConfirm={deleteModal.apply}
+          confirmText="Delete"
+        >
+          <p>
+            Are you sure you want to delete this task &quot;{task.title}&quot;?
+          </p>
+        </ModalLayout>
+      </Modal>
     </li>
   );
 };

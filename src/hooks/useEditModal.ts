@@ -1,14 +1,20 @@
 import { useState, ChangeEvent, KeyboardEvent } from 'react';
 
 export const useEditModal = (
-  onApply: (value: string, id?: string | null) => void
+  onApply: (value?: string, id?: string | null) => void
 ) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState<'edit' | 'confirm'>('edit');
   const [value, setValue] = useState('');
   const [originalValue, setOriginalValue] = useState('');
   const [entityId, setEntityId] = useState<string | null>(null);
 
-  const open = (id: string | null = null, initialValue: string = '') => {
+  const open = (
+    id: string | null = null,
+    initialValue: string = '',
+    modalMode: 'edit' | 'confirm' = 'edit'
+  ) => {
+    setMode(modalMode);
     setEntityId(id);
     setValue(initialValue);
     setOriginalValue(initialValue);
@@ -22,7 +28,9 @@ export const useEditModal = (
   };
 
   const isApplyDisabled =
-    value.trim() === '' || value.trim() === originalValue.trim();
+    mode === 'edit'
+      ? value.trim() === '' || value.trim() === originalValue.trim()
+      : false;
 
   const apply = () => {
     if (!isApplyDisabled) {
@@ -42,6 +50,7 @@ export const useEditModal = (
   };
 
   return {
+    mode,
     isOpen,
     value,
     changeHandler,

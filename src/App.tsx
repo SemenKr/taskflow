@@ -6,9 +6,8 @@ import type { TasksStateType, TaskType, TodolistType } from './types/todo.ts';
 import { AddButton } from '@components/common/AddButton/AddButton.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { TextInput } from '@components/common/input/TextInput.tsx';
-import { Button } from '@components/common/Button/Button.tsx';
 import { Modal } from '@components/common/Modal/Modal.tsx';
-import styles from '@components/todo/ToDoList/ToDoList.module.scss';
+import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
 
 export function App() {
   const todolistId1 = v1() as string;
@@ -85,6 +84,7 @@ export function App() {
   };
 
   const addTodoList = useEditModal((newTitle) => {
+    if (!newTitle) return;
     const todolistId = v1() as string;
     const newTodolist: TodolistType = {
       id: todolistId,
@@ -115,26 +115,21 @@ export function App() {
 
       <AddButton onClick={() => addTodoList.open(null)} />
 
-      <Modal
-        title={'Edit todolist'}
-        open={addTodoList.isOpen}
-        onClose={addTodoList.close}
-      >
-        <TextInput
-          value={addTodoList.value}
-          onChange={addTodoList.changeHandler}
-          onKeyDown={addTodoList.keyHandler}
-          autoFocus
-        />
-        <div className={styles.modalAction}>
-          <Button onClick={addTodoList.close}>CANCEL</Button>
-          <Button
-            onClick={addTodoList.apply}
-            disabled={addTodoList.isApplyDisabled}
-          >
-            CREATE
-          </Button>
-        </div>
+      <Modal open={addTodoList.isOpen} onClose={addTodoList.close}>
+        <ModalLayout
+          title={'Edit todolist'}
+          onCancel={addTodoList.close}
+          onConfirm={addTodoList.apply}
+          confirmText="Add"
+          confirmDisabled={addTodoList.isApplyDisabled}
+        >
+          <TextInput
+            value={addTodoList.value}
+            onChange={addTodoList.changeHandler}
+            onKeyDown={addTodoList.keyHandler}
+            autoFocus
+          />
+        </ModalLayout>
       </Modal>
     </Layout>
   );

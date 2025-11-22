@@ -9,6 +9,7 @@ import { Modal } from '@components/common/Modal/Modal.tsx';
 import { Button } from '@components/common/Button/Button.tsx';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
+import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
 
 type Props = {
   todolist: TodolistType;
@@ -70,18 +71,18 @@ export const ToDoList = ({
     inputRef.current?.focus();
   };
 
-  const deleteAllTasksHandler = () => {
+  const deleteAllModal = useEditModal(() => {
     deleteAllTasks(todolist.id);
-  };
+  });
 
-  const modal = useEditModal((newTitle, taskId) => {
-    if (taskId) {
+  const EditModal = useEditModal((newTitle, taskId) => {
+    if (taskId && newTitle !== undefined) {
       changeTaskTitle(todolist.id, taskId, newTitle);
     }
   });
 
   const openModal = (taskId: string, taskTitle: string) => {
-    modal.open(taskId, taskTitle);
+    EditModal.open(taskId, taskTitle);
   };
 
   return (
@@ -128,7 +129,7 @@ export const ToDoList = ({
       <div className={styles.buttonsWrapper}>
         <Button
           variant="default"
-          onClick={deleteAllTasksHandler}
+          onClick={() => deleteAllModal.open(null, '', 'confirm')}
           disabled={tasks.length === 0}
         >
           Delete All Tasks
@@ -141,19 +142,32 @@ export const ToDoList = ({
           completedCount={completedCount}
         />
       </div>
-      <Modal title={'Edit Task'} open={modal.isOpen} onClose={modal.close}>
-        <TextInput
-          value={modal.value}
-          onChange={modal.changeHandler}
-          onKeyDown={modal.keyHandler}
-          autoFocus
-        />
-        <div className={styles.modalAction}>
-          <Button onClick={modal.close}>CANCEL</Button>
-          <Button onClick={modal.apply} disabled={modal.isApplyDisabled}>
-            APPLY
-          </Button>
-        </div>
+      <Modal open={EditModal.isOpen} onClose={EditModal.close}>
+        <ModalLayout
+          title={'Edit task'}
+          onCancel={EditModal.close}
+          onConfirm={EditModal.apply}
+          confirmText="Apply"
+          confirmDisabled={EditModal.isApplyDisabled}
+        >
+          <TextInput
+            value={EditModal.value}
+            onChange={EditModal.changeHandler}
+            onKeyDown={EditModal.keyHandler}
+            autoFocus
+          />
+        </ModalLayout>
+      </Modal>
+
+      <Modal open={deleteAllModal.isOpen} onClose={deleteAllModal.close}>
+        <ModalLayout
+          title="Delete all tasks"
+          onCancel={deleteAllModal.close}
+          onConfirm={deleteAllModal.apply}
+          confirmText="Delete"
+        >
+          <p>Are you sure you want to delete all tasks?</p>
+        </ModalLayout>
       </Modal>
     </div>
   );
