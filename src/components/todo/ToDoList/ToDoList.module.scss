@@ -99,23 +99,6 @@
   }
 }
 
-.modalTitle {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  color: var(--color-text-primary);
-  margin-bottom: 25px;
-}
-
-.modalInput {
-  margin-bottom: 128px;
-  width: 100%;
-  padding: 8px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-}
-
 .modalAction {
   display: flex;
   align-items: center;

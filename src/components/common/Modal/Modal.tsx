@@ -2,12 +2,13 @@ import styles from './Modal.module.scss';
 import { ReactNode, MouseEvent, useEffect } from 'react';
 
 type ModalProps = {
+  title: string;
   open: boolean;
   onClose: () => void;
   children: ReactNode;
 };
 
-export const Modal = ({ open, onClose, children }: ModalProps) => {
+export const Modal = ({ title, open, onClose, children }: ModalProps) => {
   useEffect(() => {
     if (!open) return;
 
@@ -31,7 +32,10 @@ export const Modal = ({ open, onClose, children }: ModalProps) => {
 
   return (
     <div className={styles.modalOverlay} onClick={overlayClickHandler}>
-      <div className={styles.modalWindow}>{children}</div>
+      <div className={styles.modalWindow}>
+        <h3 className={styles.modalTitle}>{title}</h3>
+        {children}
+      </div>
     </div>
   );
 };

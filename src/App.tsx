@@ -4,6 +4,11 @@ import { v1 } from 'uuid';
 import { ToDoList } from './components/todo/ToDoList/ToDoList.tsx';
 import type { TasksStateType, TaskType, TodolistType } from './types/todo.ts';
 import { AddButton } from '@components/common/AddButton/AddButton.tsx';
+import { useEditModal } from '@/hooks/useEditModal.ts';
+import { TextInput } from '@components/common/input/TextInput.tsx';
+import { Button } from '@components/common/Button/Button.tsx';
+import { Modal } from '@components/common/Modal/Modal.tsx';
+import styles from '@components/todo/ToDoList/ToDoList.module.scss';
 
 export function App() {
   const todolistId1 = v1() as string;
@@ -79,16 +84,16 @@ export function App() {
     }));
   };
 
-  const addTodoList = (newTitle: string) => {
+  const addTodoList = useEditModal((newTitle) => {
     const todolistId = v1() as string;
     const newTodolist: TodolistType = {
       id: todolistId,
       title: newTitle,
       filter: 'all',
     };
-    setTodoLists((prevState) => [newTodolist, ...prevState]);
-    setTasks((prevState) => ({ ...prevState, [todolistId]: [] }));
-  };
+    setTodoLists((prev) => [newTodolist, ...prev]);
+    setTasks((prev) => ({ ...prev, [todolistId]: [] }));
+  });
 
   return (
     <Layout isDark={isDark} onToggleTheme={switchMode}>
@@ -107,7 +112,30 @@ export function App() {
             />
           ) as ReactNode
       )}
-      <AddButton onClick={() => addTodoList('New Todolist')} />
+
+      <AddButton onClick={() => addTodoList.open(null)} />
+
+      <Modal
+        title={'Edit todolist'}
+        open={addTodoList.isOpen}
+        onClose={addTodoList.close}
+      >
+        <TextInput
+          value={addTodoList.value}
+          onChange={addTodoList.changeHandler}
+          onKeyDown={addTodoList.keyHandler}
+          autoFocus
+        />
+        <div className={styles.modalAction}>
+          <Button onClick={addTodoList.close}>CANCEL</Button>
+          <Button
+            onClick={addTodoList.apply}
+            disabled={addTodoList.isApplyDisabled}
+          >
+            CREATE
+          </Button>
+        </div>
+      </Modal>
     </Layout>
   );
 }

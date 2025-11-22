@@ -22,6 +22,22 @@
   width: 100%;
 }
 
+.modalTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin-bottom: 25px;
+}
+
+.modalAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;
