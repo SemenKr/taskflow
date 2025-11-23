@@ -10,6 +10,7 @@ import { Button } from '@components/common/Button/Button.tsx';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
+import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
 
 type Props = {
   todolist: TodolistType;
@@ -20,13 +21,14 @@ type Props = {
   changeTaskTitle: (
     todolistId: string,
     taskId: string,
-    taskTitle: string
+    NewTaskTitle: string
   ) => void;
   changeTaskStatus: (
     todolistId: string,
     taskId: string,
     newIsDoneStatus: TaskType['isDone']
   ) => void;
+  changeTodolistTitle: (todolistId: string, newTodolistTitle: string) => void;
 };
 
 export const ToDoList = ({
@@ -37,6 +39,7 @@ export const ToDoList = ({
   addTask,
   changeTaskTitle,
   changeTaskStatus,
+  changeTodolistTitle,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');
@@ -85,9 +88,18 @@ export const ToDoList = ({
     EditModal.open(taskId, taskTitle);
   };
 
+  const onChangeTodolistHandler = (newTodolistTitle: string) => {
+    changeTodolistTitle(todolist.id, newTodolistTitle);
+  };
+
   return (
     <div className={styles.todo}>
-      <h3 className={styles.todoTitle}>{todolist.title}</h3>
+      <h3 className={styles.todoTitle}>
+        <EditableTaskTitle
+          title={todolist.title}
+          onChange={onChangeTodolistHandler}
+        />
+      </h3>
 
       <div className={styles.todoInputWrapper}>
         <TextInput
