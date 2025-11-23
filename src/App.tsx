@@ -83,17 +83,30 @@ export function App() {
     }));
   };
 
-  const addTodoList = useEditModal((newTitle) => {
-    if (!newTitle) return;
+  const addTodoList = useEditModal((title) => {
+    if (!title) return;
     const todolistId = v1() as string;
     const newTodolist: TodolistType = {
       id: todolistId,
-      title: newTitle,
+      title: title,
       filter: 'all',
     };
     setTodoLists((prev) => [newTodolist, ...prev]);
     setTasks((prev) => ({ ...prev, [todolistId]: [] }));
   });
+
+  const changeTodolistTitle = (todolistId: string, newTitle: string) => {
+    setTodoLists((prev) =>
+      prev.map((todolist) =>
+        todolist.id === todolistId
+          ? {
+              ...todolist,
+              title: newTitle,
+            }
+          : todolist
+      )
+    );
+  };
 
   return (
     <Layout isDark={isDark} onToggleTheme={switchMode}>
@@ -109,6 +122,7 @@ export function App() {
               addTask={addTask}
               changeTaskTitle={changeTaskTitle}
               changeTaskStatus={changeTaskStatus}
+              changeTodolistTitle={changeTodolistTitle}
             />
           ) as ReactNode
       )}
@@ -117,7 +131,7 @@ export function App() {
 
       <Modal open={addTodoList.isOpen} onClose={addTodoList.close}>
         <ModalLayout
-          title={'Edit todolist'}
+          title={'Add todolist'}
           onCancel={addTodoList.close}
           onConfirm={addTodoList.apply}
           confirmText="Add"

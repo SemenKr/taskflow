@@ -1,19 +1,24 @@
 .todo {
+  max-width: 356px;
   background: var(--color-bg-primary);
   color: var(--color-text-primary);
   padding: 2rem 1.8rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 10px 25px var(--shadow-default);
-  transition:
-    color var(--transition-normal),
-    background-color var(--transition-normal);
+  transition: color var(--transition-normal),
+  background-color var(--transition-normal);
 }
 
 .todoTitle {
   font-style: normal;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 1.62rem;
   color: var(--color-text-primary);
+  margin-bottom: 1rem;
+
+  :global(input) {
+    font-size: 1.62rem;
+  }
 }
 
 .todoInputWrapper {
@@ -21,7 +26,6 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  //margin-bottom: 1.1rem;
 }
 
 .todoInput {

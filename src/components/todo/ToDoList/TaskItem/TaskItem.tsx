@@ -20,7 +20,7 @@ type TaskItemProps = {
   changeTaskTitle: (
     todolistId: string,
     taskId: string,
-    taskTitle: string
+    newTaskTitle: string
   ) => void;
   openModal: (taskId: string, taskTitle: string) => void;
 };
@@ -33,8 +33,8 @@ export const TaskItem = ({
   changeTaskTitle,
   openModal,
 }: TaskItemProps) => {
-  const onChangeHandler = (taskTitle: string) => {
-    changeTaskTitle(todolist.id, task.id, taskTitle);
+  const onChangeTaskHandler = (newTaskTitle: string) => {
+    changeTaskTitle(todolist.id, task.id, newTaskTitle);
   };
 
   const onEditHandler = () => {
@@ -56,7 +56,7 @@ export const TaskItem = ({
           changeTaskStatus(todolist.id, task.id, e.currentTarget.checked)
         }
       />
-      <EditableTaskTitle title={task.title} onChange={onChangeHandler} />
+      <EditableTaskTitle title={task.title} onChange={onChangeTaskHandler} />
       <div className={styles.todoIcons}>
         <Button
           onClick={onEditHandler}
