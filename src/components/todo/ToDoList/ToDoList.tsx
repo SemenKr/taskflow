@@ -11,6 +11,7 @@ import { TextInput } from '@components/common/input/TextInput.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
 import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
+import { CirclePlus } from 'lucide-react';
 
 type Props = {
   todolist: TodolistType;
@@ -108,14 +109,16 @@ export const ToDoList = ({
           onChange={(e) => setInputValue(e.currentTarget.value)}
           onKeyDown={(e) => e.key === 'Enter' && addTaskHandler()}
         />
-        <button
+        <Button
           className={styles.todoAddButton}
           onClick={addTaskHandler}
+          iconOnly
+          variant="ghost"
+          size="lg"
+          startIcon={<CirclePlus />}
           aria-label="Add task"
           disabled={!inputValue.trim()}
-        >
-          +
-        </button>
+        />
       </div>
 
       {tasks.length === 0 ? (
