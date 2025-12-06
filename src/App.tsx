@@ -1,146 +1,108 @@
 import { Layout } from './components/Layout/Layout.tsx';
 import { ReactNode, useState } from 'react';
-import { v1 } from 'uuid';
 import { ToDoList } from './components/todo/ToDoList/ToDoList.tsx';
-import type { TasksStateType, TaskType, TodolistType } from './types/todo.ts';
 import { AddButton } from '@components/common/AddButton/AddButton.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 import { Modal } from '@components/common/Modal/Modal.tsx';
 import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
+import {
+  addTodolist,
+  removeTodolist,
+  changeTodolistTitle,
+} from '@/app/store/slices/todolistsSlice';
+import {
+  addTask,
+  removeTask,
+  removeAllTasks,
+  changeTaskTitle,
+  changeTaskStatus,
+} from '@/app/store/slices/tasksSlice';
 
 export function App() {
-  const todolistId1 = v1() as string;
-  const todolistId2 = v1() as string;
-
-  const [todoLists, setTodoLists] = useState<TodolistType[]>([
-    { id: todolistId1, title: 'What to learn', filter: 'all' },
-    { id: todolistId2, title: 'What to buy', filter: 'all' },
-  ]);
-
-  const [tasks, setTasks] = useState<TasksStateType>({
-    [todolistId1]: [
-      { id: v1() as string, title: 'HTML&CSS', isDone: true },
-      { id: v1() as string, title: 'JS', isDone: true },
-      { id: v1() as string, title: 'ReactJS', isDone: false },
-      { id: v1() as string, title: 'Rest API', isDone: true },
-      { id: v1() as string, title: 'GraphQL', isDone: false },
-    ],
-    [todolistId2]: [
-      { id: v1() as string, title: 'Rest API', isDone: true },
-      { id: v1() as string, title: 'GraphQL', isDone: false },
-      { id: v1() as string, title: 'JS', isDone: true },
-      { id: v1() as string, title: 'ReactJS', isDone: false },
-    ],
-  });
+  const dispatch = useAppDispatch();
+  const todolists = useAppSelector((state) => state.todolists);
+  const tasks = useAppSelector((state) => state.tasks);
 
   const [isDark, setIsDark] = useState(false);
   const switchMode = () => setIsDark(!isDark);
 
-  const addTask = (todolistId: string, taskTitle: string) => {
-    const newTask = { id: v1(), title: taskTitle, isDone: false };
-    setTasks((prev) => ({
-      ...prev,
-      [todolistId]: [newTask, ...tasks[todolistId]],
-    }));
+  const handleAddTask = (todolistId: string, taskTitle: string) => {
+    dispatch(addTask({ todolistId, title: taskTitle }));
   };
 
-  const deleteTask = (todolistId: string, taskId: string) => {
-    setTasks((prev) => ({
-      ...prev,
-      [todolistId]: prev[todolistId].filter((task) => task.id !== taskId),
-    }));
+  const handleDeleteTask = (todolistId: string, taskId: string) => {
+    dispatch(removeTask({ todolistId, taskId }));
   };
 
-  const deleteAllTasks = (todolistId: string) => {
-    setTasks((prev) => ({ ...prev, [todolistId]: [] }));
-    // setTasks([]);
+  const handleDeleteAllTasks = (todolistId: string) => {
+    dispatch(removeAllTasks(todolistId));
   };
 
-  const changeTaskTitle = (
+  const handleChangeTaskTitle = (
     todolistId: string,
     taskId: string,
     taskTitle: string
   ) => {
-    setTasks((prev) => ({
-      ...prev,
-      [todolistId]: prev[todolistId].map((task) =>
-        task.id === taskId ? { ...task, title: taskTitle } : task
-      ),
-    }));
+    dispatch(changeTaskTitle({ todolistId, taskId, title: taskTitle }));
   };
 
-  const changeTaskStatus = (
+  const handleChangeTaskStatus = (
     todolistId: string,
     taskId: string,
-    newIsDoneStatus: TaskType['isDone']
+    newIsDoneStatus: boolean
   ) => {
-    setTasks((prev) => ({
-      ...prev,
-      [todolistId]: prev[todolistId].map((task) =>
-        task.id === taskId ? { ...task, isDone: newIsDoneStatus } : task
-      ),
-    }));
+    dispatch(changeTaskStatus({ todolistId, taskId, isDone: newIsDoneStatus }));
   };
 
-  const addTodoList = useEditModal((title) => {
+  const addTodolistModal = useEditModal((title) => {
     if (!title) return;
-    const todolistId = v1() as string;
-    const newTodolist: TodolistType = {
-      id: todolistId,
-      title: title,
-      filter: 'all',
-    };
-    setTodoLists((prev) => [newTodolist, ...prev]);
-    setTasks((prev) => ({ ...prev, [todolistId]: [] }));
+    dispatch(addTodolist(title));
   });
 
-  const changeTodolistTitle = (todolistId: string, newTitle: string) => {
-    setTodoLists((prev) =>
-      prev.map((todolist) =>
-        todolist.id === todolistId
-          ? {
-              ...todolist,
-              title: newTitle,
-            }
-          : todolist
-      )
-    );
+  const handleChangeTodolistTitle = (todolistId: string, newTitle: string) => {
+    dispatch(changeTodolistTitle({ todolistId, title: newTitle }));
+  };
+
+  const handleRemoveTodolist = (todolistId: string) => {
+    dispatch(removeTodolist(todolistId));
   };
 
   return (
     <Layout isDark={isDark} onToggleTheme={switchMode}>
-      {todoLists.map(
+      {todolists.map(
         (todolist) =>
           (
             <ToDoList
               key={todolist.id}
               todolist={todolist}
-              tasks={tasks[todolist.id]}
-              deleteTask={deleteTask}
-              deleteAllTasks={deleteAllTasks}
-              addTask={addTask}
-              changeTaskTitle={changeTaskTitle}
-              changeTaskStatus={changeTaskStatus}
-              changeTodolistTitle={changeTodolistTitle}
+              tasks={tasks[todolist.id] || []}
+              deleteTask={handleDeleteTask}
+              deleteAllTasks={handleDeleteAllTasks}
+              addTask={handleAddTask}
+              changeTaskTitle={handleChangeTaskTitle}
+              changeTaskStatus={handleChangeTaskStatus}
+              changeTodolistTitle={handleChangeTodolistTitle}
+              removeTodolist={handleRemoveTodolist}
             />
           ) as ReactNode
       )}
 
-      <AddButton onClick={() => addTodoList.open(null)} />
+      <AddButton onClick={() => addTodolistModal.open(null)} />
 
-      <Modal open={addTodoList.isOpen} onClose={addTodoList.close}>
+      <Modal open={addTodolistModal.isOpen} onClose={addTodolistModal.close}>
         <ModalLayout
           title={'Add todolist'}
-          onCancel={addTodoList.close}
-          onConfirm={addTodoList.apply}
+          onCancel={addTodolistModal.close}
+          onConfirm={addTodolistModal.apply}
           confirmText="Add"
-          confirmDisabled={addTodoList.isApplyDisabled}
+          confirmDisabled={addTodolistModal.isApplyDisabled}
         >
           <TextInput
-            value={addTodoList.value}
-            onChange={addTodoList.changeHandler}
-            onKeyDown={addTodoList.keyHandler}
+            value={addTodolistModal.value}
+            onChange={addTodolistModal.changeHandler}
+            onKeyDown={addTodolistModal.keyHandler}
             autoFocus
           />
         </ModalLayout>

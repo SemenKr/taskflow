@@ -1,12 +1,21 @@
 .todo {
+  position: relative;
   max-width: 356px;
   background: var(--color-bg-primary);
   color: var(--color-text-primary);
   padding: 2rem 1.8rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 10px 25px var(--shadow-default);
-  transition: color var(--transition-normal),
-  background-color var(--transition-normal);
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+.todoDeleteButton {
+  position: absolute; // Временно добавьте !important для проверки
+  top: 8px;
+  right: 8px;
+  z-index: 10; // Увеличьте z-index
 }
 
 .todoTitle {
