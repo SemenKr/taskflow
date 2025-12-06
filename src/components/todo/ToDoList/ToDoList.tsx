@@ -11,7 +11,7 @@ import { TextInput } from '@components/common/input/TextInput.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
 import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
-import { CirclePlus } from 'lucide-react';
+import { CirclePlus, Trash2 } from 'lucide-react';
 
 type Props = {
   todolist: TodolistType;
@@ -30,6 +30,7 @@ type Props = {
     newIsDoneStatus: TaskType['isDone']
   ) => void;
   changeTodolistTitle: (todolistId: string, newTodolistTitle: string) => void;
+  removeTodolist: (todolistId: string) => void;
 };
 
 export const ToDoList = ({
@@ -41,6 +42,7 @@ export const ToDoList = ({
   changeTaskTitle,
   changeTaskStatus,
   changeTodolistTitle,
+  removeTodolist,
 }: Props) => {
   const [inputValue, setInputValue] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');
@@ -79,6 +81,10 @@ export const ToDoList = ({
     deleteAllTasks(todolist.id);
   });
 
+  const deleteTodolistModal = useEditModal(() => {
+    removeTodolist(todolist.id);
+  });
+
   const EditModal = useEditModal((newTitle, taskId) => {
     if (taskId && newTitle !== undefined) {
       changeTaskTitle(todolist.id, taskId, newTitle);
@@ -95,12 +101,22 @@ export const ToDoList = ({
 
   return (
     <div className={styles.todo}>
-      <h3 className={styles.todoTitle}>
+      <Button
+        className={styles.todoDeleteButton}
+        onClick={() => deleteTodolistModal.open(null, '', 'confirm')}
+        iconOnly
+        variant="ghost-danger"
+        size="sm"
+        startIcon={<Trash2 />}
+        aria-label="Delete todolist"
+      />
+
+      <div className={styles.todoTitle}>
         <EditableTaskTitle
           title={todolist.title}
           onChange={onChangeTodolistHandler}
         />
-      </h3>
+      </div>
 
       <div className={styles.todoInputWrapper}>
         <TextInput
@@ -157,6 +173,8 @@ export const ToDoList = ({
           completedCount={completedCount}
         />
       </div>
+
+      {/* Modal для редактирования задачи */}
       <Modal open={EditModal.isOpen} onClose={EditModal.close}>
         <ModalLayout
           title={'Edit task'}
@@ -174,6 +192,7 @@ export const ToDoList = ({
         </ModalLayout>
       </Modal>
 
+      {/* Modal для удаления всех задач */}
       <Modal open={deleteAllModal.isOpen} onClose={deleteAllModal.close}>
         <ModalLayout
           title="Delete all tasks"
@@ -182,6 +201,27 @@ export const ToDoList = ({
           confirmText="Delete"
         >
           <p>Are you sure you want to delete all tasks?</p>
+        </ModalLayout>
+      </Modal>
+
+      {/* Modal для удаления тудулиста */}
+      <Modal
+        open={deleteTodolistModal.isOpen}
+        onClose={deleteTodolistModal.close}
+      >
+        <ModalLayout
+          title="Delete todolist"
+          onCancel={deleteTodolistModal.close}
+          onConfirm={deleteTodolistModal.apply}
+          confirmText="Delete"
+        >
+          <p>Are you sure you want to delete "{todolist.title}"?</p>
+          {tasks.length > 0 && (
+            <p style={{ marginTop: '8px', color: 'var(--color-warning)' }}>
+              This will also delete {tasks.length} task
+              {tasks.length !== 1 ? 's' : ''}.
+            </p>
+          )}
         </ModalLayout>
       </Modal>
     </div>
