@@ -1,0 +1,56 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+
+.modalWindow {
+  background: var(--color-bg-primary);
+  padding: 1.1rem 1.8rem;
+  border-radius: 16px;
+  position: relative;
+  animation: slideIn 0.25s ease forwards;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.modalTitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin-bottom: 25px;
+}
+
+.modalAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

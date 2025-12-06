@@ -23,15 +23,17 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    // ДОБАВЬ ЭТИ НАСТРОЙКИ:
+    /* Path aliases */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@styles/*": ["./src/styles/*"],
-      "@components/*": ["./src/components/*"]
+      "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"]
     },
+
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src", "src/types"]
 }

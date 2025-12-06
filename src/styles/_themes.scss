@@ -1,0 +1,45 @@
+// Light theme (default)
+@use 'variables' as vars;
+
+:root,
+[data-theme='light'] {
+  // Colors
+  --color-primary: #6c63ff;
+  --color-primary-hover: #534cc2;
+  --color-text-primary: #252525;
+  --color-text-accent: #f7f7f7;
+  --color-text-contrast: #f7f7f7;
+  --color-bg-primary: #f7f7f7;
+  --color-bg-secondary: #ffffff;
+  --color-bg-accent: #252525;
+  --color-border: #6c63ff;
+  --color-gray: #cdcdcd;
+  --color-error: #e50000;
+
+  // Shadows
+  --shadow-default: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  --transition-normal: 0.3s ease-in-out;
+
+  // Modal
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  --border-radius: 5px
+}
+
+// Dark theme
+[data-theme='dark'] {
+  // Colors
+  --color-primary: rgba(108, 99, 255, 0.6);
+  --color-text-primary: #f7f7f7;
+  --color-text-contrast: #252525;
+  --color-bg-primary: #252525;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-accent: #f7f7f7;
+  --color-border: #6c63ff;
+
+  // Shadows
+  --shadow-default: rgba(0, 0, 0, 0.3);
+
+  // Modal
+  --color-bg-overlay: rgba(255, 255, 255, 0.5);
+}
