@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import styles from './EditableTaskTitle.module.scss';
+import styles from './EditableTitle.module.scss';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 
 type EditableTitleTaskProps = {
@@ -7,10 +7,7 @@ type EditableTitleTaskProps = {
   onChange: (taskTitle: string) => void;
 };
 
-export const EditableTaskTitle = ({
-  title,
-  onChange,
-}: EditableTitleTaskProps) => {
+export const EditableTitle = ({ title, onChange }: EditableTitleTaskProps) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>(title);
 

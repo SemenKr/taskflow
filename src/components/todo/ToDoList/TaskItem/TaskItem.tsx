@@ -1,12 +1,12 @@
 import styles from './TaskItem.module.scss';
 import { TaskType, TodolistType } from '@/types/todo.ts';
-import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
 import { Icon } from '@components/common/Icon/Icon.tsx';
 import { Button } from '@components/common/Button/Button.tsx';
 import { ReactNode } from 'react';
 import { Modal } from '@components/common/Modal/Modal.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
+import { EditableTitle } from '@components/common/EditableTitle/EditableTitle.tsx';
 
 type TaskItemProps = {
   todolist: TodolistType;
@@ -56,7 +56,7 @@ export const TaskItem = ({
           changeTaskStatus(todolist.id, task.id, e.currentTarget.checked)
         }
       />
-      <EditableTaskTitle title={task.title} onChange={onChangeTaskHandler} />
+      <EditableTitle title={task.title} onChange={onChangeTaskHandler} />
       <div className={styles.todoIcons}>
         <Button
           onClick={onEditHandler}
