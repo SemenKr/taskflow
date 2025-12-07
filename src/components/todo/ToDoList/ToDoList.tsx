@@ -10,8 +10,8 @@ import { Button } from '@components/common/Button/Button.tsx';
 import { TextInput } from '@components/common/input/TextInput.tsx';
 import { useEditModal } from '@/hooks/useEditModal.ts';
 import { ModalLayout } from '@components/common/Modal/ModalLayout.tsx';
-import { EditableTaskTitle } from '@components/todo/ToDoList/EditableTaskTitle/EditableTaskTitle.tsx';
 import { CirclePlus, Trash2 } from 'lucide-react';
+import { EditableTitle } from '@components/common/EditableTitle/EditableTitle.tsx';
 
 type Props = {
   todolist: TodolistType;
@@ -112,7 +112,7 @@ export const ToDoList = ({
       />
 
       <div className={styles.todoTitle}>
-        <EditableTaskTitle
+        <EditableTitle
           title={todolist.title}
           onChange={onChangeTodolistHandler}
         />
